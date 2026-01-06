@@ -9,10 +9,10 @@ Update it once, keep it consistent everywhere.
 
 | Field | Value |
 |-------|-------|
-| **Name** | <!-- First Last --> |
-| **Preferred Name** | <!-- What should I call you? --> |
-| **Pronouns** | <!-- Optional --> |
-| **EWU Email** | <!-- @ewu.edu --> |
+| **Name** |Jaeden Ives-crow|
+| **Preferred Name** |anything|
+| **Pronouns** |He/Him|
+| **EWU Email** |jivescrow@ewu.edu|
 
 ---
 
@@ -22,18 +22,18 @@ Update it once, keep it consistent everywhere.
 
 | Platform | Profile URL | Status |
 |----------|-------------|--------|
-| **GitHub** | `https://github.com/________` | ⏳ |
-| **Figma** | `@________` | ⏳ |
-| **CodePen** | `https://codepen.io/________` | ⏳ |
-| **Portfolio** | *Coming Week 10* | 🔲 |
+| **GitHub** | `https://github.com/m-crow-m` | ⏳ |
+| **Figma** | `@m-crow-m` | ⏳ |
+| **CodePen** | `https://codepen.io/m-crow-m` | ⏳ |
+| **Portfolio** |https://anomen.store| 🔲 |
 
 ---
 
 ## Profile Photo
 
-- [ ] Same photo uploaded to GitHub, Figma, and CodePen
-- [ ] Professional or at least *intentional*
-- [ ] Face visible (helps me learn names!)
+- [✅] Same photo uploaded to GitHub, Figma, and CodePen
+- [✅] Professional or at least *intentional*
+- [✅] Face visible (helps me learn names!)
 
 ---
 
