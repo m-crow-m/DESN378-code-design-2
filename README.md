@@ -1,7 +1,8 @@
 # DESN 378: Code + Design 2
 
 🔗 **[Learning Log](https://m-crow-m.github.io/DESN378-code-design-2)
-🔗 **[DESN368 Portfolio](https://m-crow-m.github.io)
+🔗 **[DESN368 Portfolio](https://anomen.store
+)
 
 ---
 
