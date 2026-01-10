@@ -44,9 +44,11 @@ console.log("1 to 2 tsp salt (start lighter, adjust)")
 
 console.log("1 tsp black pepper")
 
+/* SECRET INGREDIENTS:
 console.log("1 tsp ground coriander (optional but common)")
 
 console.log("1 tsp ground mace or nutmeg (small amount)")
+*/
 
 console.log("250 to 500 ml stock (from simmering the organs) as needed")
 
