@@ -24,6 +24,39 @@ This is my workspace for **DESN 378 Code + Design 2** also known as **Web Design
 ## Learning Log
 
 Update this section each week with observations, breakthroughs, and questions.
+​
+## Week : The Setup
+​
+### What I Learned
+Strings, Booleans, Variables, Reassigning values, console.log​
+​
+### What Was Hard
+Understanding, or trying to understand how this information could be utilized to create interactive effects in code. ​
+​
+### How I Used AI
+I used AI to understand the code that I was copying. OpenAI helped me realize what some of the interactions meant and why I was doing them in the console. ​
+​
+### What's Still Unclear
+I don't understand what communication with the console on webpages is for, and how it is relavent in design. I don't understand how java helps to audit code, and why I would ever use it in that way.​
+​
+### Work Completed (Week 0)
+​
+**Engage**
+- [done] Portfolio Audit
+​
+**Learn**
+- [done] Console Explorer
+- [done] Codedex Console Fundamentals
+​
+**Reflect**
+- [done] Visual Notes: Variables and Strings
+​
+**Build**
+- [done] The Setup
+- [done] The Behavioral Layer
+​
+---
+
 
 ### Week 1: Systems That Respond
 *Coming soon...*
