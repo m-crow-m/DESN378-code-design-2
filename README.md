@@ -57,9 +57,30 @@ I don't understand what communication with the console on webpages is for, and h
 ​
 ---
 
+### Week 0: First Light
+Add your Week 1 work here.
 
-### Week 1: Systems That Respond
-*Coming soon...*
+What to include
+Assignment submissions
+Experiments and explorations
+Notes and reflections
+This week's focus
+Design tokens (CSS Custom Properties)
+Theme toggle
+querySelector and addEventListener
+
+### Week 1: ### What I Learned
+I learned how to use java to switch variable modes. ​
+​
+### What Was Hard
+It was hard to motivate myself to learn as I am succumbing to senioritis. I don't understand javascript. I want AI to do it for me.​
+​
+### How I Used AI
+I used AI everytime I was stuck with questions on the HTML workshop​
+​
+### What's Still Unclear
+It is unclear why naming conventions are so important in the code​
+​
 
 ### Week 2: Remembering Choices
 *Coming soon...*
