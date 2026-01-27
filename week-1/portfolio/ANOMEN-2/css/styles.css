@@ -1,0 +1,189 @@
+/* CSS Reset */
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-size: 100%;
+  font: inherit;
+  vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+  display: block;
+}
+body {
+  line-height: 1;
+}
+ol, ul {
+  list-style: none;
+}
+blockquote, q {
+  quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+  content: '';
+  content: none;
+}
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Portfolio Styles */
+:root {
+  --font-heading: 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Georgia', serif;
+  --color-bg-main: #f8f5ef;
+  --color-text-primary: #0a0908;
+  --color-bg-lines: #0a0908;
+}
+body {
+  background: var(--color-bg-main);
+  color: var(--color-text-primary);
+}
+nav {
+  border-bottom: 1px solid var(--color-bg-lines);
+  padding: 32px 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-width: 1200px;
+}
+nav span {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.32px;
+}
+nav div {
+  display: flex;
+  gap: 48px;
+  padding-left: 24px;
+}
+nav div span {
+  font-family: var(--font-body);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.7px;
+  padding: 0 12px;
+}
+main {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 96px 128px 448px 128px;
+}
+.hero-section {
+  margin-bottom: 128px;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.hero-section h1 {
+  font-family: var(--font-heading);
+  font-size: 554px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: -29px;
+  margin: 0;
+  line-height: 547px;
+  text-align: center;
+  width: fit-content;
+}
+.hero-section .page-label {
+  position: absolute;
+  left: 32px;
+  top: 42px;
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+.portfolio-section {
+  display: flex;
+  flex-direction: column;
+  gap: 192px;
+  align-items: center;
+}
+.portfolio-row {
+  display: flex;
+  gap: 32px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1600px;
+}
+.portfolio-row .side {
+  width: 240px;
+}
+.portfolio-row .side div {
+  font-family: var(--font-body);
+  font-size: 13px;
+}
+.portfolio-row .side .row-num {
+  margin-top: 32px;
+}
+.portfolio-card {
+  width: 784px;
+  background: var(--color-bg-main);
+  padding: 1px;
+}
+.portfolio-card img {
+  width: 100%;
+  height: 586px;
+  object-fit: cover;
+  opacity: 0.88;
+  border: 1px solid var(--color-bg-lines);
+  display: block;
+  transition: box-shadow 0.2s, border-color 0.2s;
+}
+.portfolio-card img:hover {
+  box-shadow: 0 0 0 8px var(--color-bg-lines);
+  border-color: #333;
+}
+.portfolio-card .title {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  margin-top: 16px;
+}
+.portfolio-card .desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  margin-top: 8px;
+}
+footer {
+  border-top: 1px solid var(--color-bg-lines);
+  padding: 32px 80px;
+  text-align: center;
+  font-family: var(--font-body);
+  font-size: 14px;
+  color: var(--color-text-primary);
+  background: var(--color-bg-main);
+}
+
+/* Paper Texture Background */
+.paper-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: url('../paper_texture.png') center center / cover repeat;
+  opacity: 0.18;
+}
+body > *:not(.paper-bg) {
+  position: relative;
+  z-index: 1;
+}
