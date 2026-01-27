@@ -1,3 +1,5 @@
+@import url('variables.css');
+
 /* CSS Reset */
 html, body, div, span, applet, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
@@ -25,6 +27,9 @@ footer, header, hgroup, menu, nav, section {
 }
 body {
   line-height: 1;
+  background: var(--color__bg__main);
+  color: var(--color__text__primary);
+  font-family: var(--font-body);
 }
 ol, ul {
   list-style: none;
@@ -42,21 +47,9 @@ table {
   border-spacing: 0;
 }
 
-/* Portfolio Styles */
-:root {
-  --font-heading: 'Helvetica Neue', Arial, sans-serif;
-  --font-body: 'Georgia', serif;
-  --color-bg-main: #f8f5ef;
-  --color-text-primary: #0a0908;
-  --color-bg-lines: #0a0908;
-}
-body {
-  background: var(--color-bg-main);
-  color: var(--color-text-primary);
-}
 nav {
-  border-bottom: 1px solid var(--color-bg-lines);
-  padding: 32px 80px;
+  border-bottom: var(--border-main);
+  padding: var(--nav-padding-y) var(--nav-padding-x);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -64,27 +57,27 @@ nav {
 }
 nav span {
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: var(--nav-font-size);
   font-weight: bold;
   text-transform: uppercase;
-  letter-spacing: 0.32px;
+  letter-spacing: var(--nav-letter-spacing);
+}
+nav div span {
+  font-family: var(--font-body);
+  font-size: var(--nav-item-font-size);
+  text-transform: uppercase;
+  letter-spacing: var(--nav-item-letter-spacing);
+  padding: 0 12px;
 }
 nav div {
   display: flex;
   gap: 48px;
   padding-left: 24px;
 }
-nav div span {
-  font-family: var(--font-body);
-  font-size: 14px;
-  text-transform: uppercase;
-  letter-spacing: 0.7px;
-  padding: 0 12px;
-}
 main {
-  max-width: 1600px;
+  max-width: var(--main-max-width);
   margin: 0 auto;
-  padding: 96px 128px 448px 128px;
+  padding: var(--main-padding-top) var(--main-padding-x) var(--main-padding-bottom) var(--main-padding-x);
 }
 .hero-section {
   margin-bottom: 128px;
@@ -95,12 +88,12 @@ main {
 }
 .hero-section h1 {
   font-family: var(--font-heading);
-  font-size: 554px;
-  font-weight: bold;
+  font-size: var(--heading-size);
+  font-weight: var(--heading-weight);
   text-transform: uppercase;
-  letter-spacing: -29px;
+  letter-spacing: var(--heading-spacing);
   margin: 0;
-  line-height: 547px;
+  line-height: var(--heading-line-height);
   text-align: center;
   width: fit-content;
 }
@@ -109,7 +102,7 @@ main {
   left: 32px;
   top: 42px;
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--side-label-font-size);
 }
 .portfolio-section {
   display: flex;
@@ -122,21 +115,21 @@ main {
   gap: 32px;
   align-items: flex-start;
   width: 100%;
-  max-width: 1600px;
+  max-width: var(--main-max-width);
 }
 .portfolio-row .side {
   width: 240px;
 }
 .portfolio-row .side div {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--side-label-font-size);
 }
 .portfolio-row .side .row-num {
   margin-top: 32px;
 }
 .portfolio-card {
   width: 784px;
-  background: var(--color-bg-main);
+  background: var(--color__bg__main);
   padding: 1px;
 }
 .portfolio-card img {
@@ -144,37 +137,35 @@ main {
   height: 586px;
   object-fit: cover;
   opacity: 0.88;
-  border: 1px solid var(--color-bg-lines);
+  border: var(--border-main);
   display: block;
   transition: box-shadow 0.2s, border-color 0.2s;
 }
 .portfolio-card img:hover {
-  box-shadow: 0 0 0 8px var(--color-bg-lines);
-  border-color: #333;
+  box-shadow: 0 0 0 8px var(--color__bg__lines__strokes);
+  border-color: var(--color__text__muted);
 }
 .portfolio-card .title {
   font-family: var(--font-heading);
-  font-size: 16px;
+  font-size: var(--portfolio-title-size);
   font-weight: bold;
   text-transform: uppercase;
   margin-top: 16px;
 }
 .portfolio-card .desc {
   font-family: var(--font-body);
-  font-size: 13px;
+  font-size: var(--portfolio-desc-size);
   margin-top: 8px;
 }
 footer {
-  border-top: 1px solid var(--color-bg-lines);
-  padding: 32px 80px;
+  border-top: var(--border-main);
+  padding: var(--nav-padding-y) var(--nav-padding-x);
   text-align: center;
   font-family: var(--font-body);
   font-size: 14px;
-  color: var(--color-text-primary);
-  background: var(--color-bg-main);
+  color: var(--color__text__primary);
+  background: var(--color__bg__main);
 }
-
-/* Paper Texture Background */
 .paper-bg {
   position: fixed;
   inset: 0;

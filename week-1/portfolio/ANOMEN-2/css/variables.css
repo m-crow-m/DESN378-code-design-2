@@ -1,0 +1,64 @@
+/* Design Tokens — [Your Name]'s Portfolio */
+
+/* Color Tokens */
+:root {
+  /* Color primitives */
+  --color__neutral__50:#f8f5ef;
+  --color__neutral__70:#737373;
+  --color__neutral__90:#0a0908;
+  --color__red__51:#e10600;
+  --color__neutral__100:#000000;
+
+  /* Brand colors */
+  --color__hover__red:var(--color__red__51);
+  --color__text__muted:var(--color__neutral__70);
+  --color__bg__main:var(--color__neutral__50);
+  --color__text__primary:var(--color__neutral__90);
+  --color__text__black:var(--color__neutral__100);
+  --color__bg__lines__strokes:var(--color__neutral__90);
+}
+
+/* Light mode  */ 
+[data-theme="light"] 
+{ /* Same variable names, different values */ }
+
+/* Dark mode  */
+[data-theme="dark"] {
+  /* Same variable names, different values */
+}
+
+/* Typography Tokens */
+:root {
+  /* Font Families */
+  --font-heading: 'Helvetica Neue', Arial, sans-serif;
+  --font-body: 'Georgia', serif;
+
+  /* Colors */
+  --color-bg-main: #f8f5ef;
+  --color-text-primary: #0a0908;
+  --color-bg-lines: #0a0908;
+
+  /* Sizing */
+  --nav-padding-x: 80px;
+  --nav-padding-y: 32px;
+  --main-max-width: 1600px;
+  --main-padding-x: 128px;
+  --main-padding-top: 96px;
+  --main-padding-bottom: 448px;
+
+  /* Typography */
+  --heading-size: 554px;
+  --heading-weight: bold;
+  --heading-spacing: -29px;
+  --heading-line-height: 547px;
+  --nav-font-size: 16px;
+  --nav-letter-spacing: 0.32px;
+  --nav-item-font-size: 14px;
+  --nav-item-letter-spacing: 0.7px;
+  --side-label-font-size: 13px;
+  --portfolio-title-size: 16px;
+  --portfolio-desc-size: 13px;
+
+  /* Border */
+  --border-main: 1px solid var(--color-bg-lines);
+}
