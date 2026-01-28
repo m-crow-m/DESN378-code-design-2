@@ -189,7 +189,7 @@ footer {
   z-index: 0;
   pointer-events: none;
   background: url('../assets/paper_texture.png') center center / cover repeat;
-  opacity: 0.35;
+  opacity: 0.18;
 }
 body > *:not(.paper-bg) {
   position: relative;
