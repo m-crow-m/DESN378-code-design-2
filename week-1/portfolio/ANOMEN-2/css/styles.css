@@ -79,6 +79,23 @@ main {
   margin: 0 auto;
   padding: var(--main-padding-top) var(--main-padding-x) var(--main-padding-bottom) var(--main-padding-x);
 }
+
+/*button*/
+/*button*/
+.theme-toggle {
+  background: var(--color__bg__main);
+  color: var(--color__text__primary);
+  border: 1px solid var(--color__bg__lines__strokes);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: var(--font-heading);
+  font-size: var(--nav-font-size);
+  letter-spacing: var(--nav-letter-spacing);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+  
 .hero-section {
   margin-bottom: 128px;
   position: relative;
@@ -171,8 +188,8 @@ footer {
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  background: url('../paper_texture.png') center center / cover repeat;
-  opacity: 0.18;
+  background: url('../assets/paper_texture.png') center center / cover repeat;
+  opacity: 0.35;
 }
 body > *:not(.paper-bg) {
   position: relative;

@@ -49,3 +49,20 @@ const PROJECTS = [
 function closeDetails() {
   document.getElementById('details').classList.add('hidden');
 }
+
+// Step 1: Find the button
+// What selector goes here? Look at your HTML — what class is on the button?
+const toggle = document.querySelector(".theme-toggle");
+
+// Step 2: Listen for clicks
+toggle.addEventListener('click', function() {
+  console.log('clicked!');
+  // Toggle between light and dark themes using data-theme attribute
+  const html = document.documentElement;
+  const currentTheme = html.getAttribute('data-theme');
+  if (currentTheme === 'dark') {
+    html.setAttribute('data-theme', 'light');
+  } else {
+    html.setAttribute('data-theme', 'dark');
+  }
+});
