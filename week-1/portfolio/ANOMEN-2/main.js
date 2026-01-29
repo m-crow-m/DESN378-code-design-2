@@ -1,3 +1,8 @@
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme) {
+  document.documentElement.dataset.theme = savedTheme;
+}
+
 const PROJECTS = [
   {
     title: "Room Magazine",
@@ -58,11 +63,13 @@ const toggle = document.querySelector(".theme-toggle");
 toggle.addEventListener('click', function() {
   console.log('clicked!');
   // Toggle between light and dark themes using data-theme attribute
-  const html = document.documentElement;
-  const currentTheme = html.getAttribute('data-theme');
+  const currentTheme = document.documentElement.dataset.theme;;
+  let newTheme;
   if (currentTheme === 'dark') {
-    html.setAttribute('data-theme', 'light');
+    newTheme = 'light';
   } else {
-    html.setAttribute('data-theme', 'dark');
+    newTheme = 'dark';
   }
+  document.documentElement.dataset.theme = newTheme;
+  localStorage.setItem('theme', newTheme);  // NEW: Save to memory
 });
