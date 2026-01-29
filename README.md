@@ -82,8 +82,23 @@ I used AI everytime I was stuck with questions on the HTML workshop​
 It is unclear why naming conventions are so important in the code​
 ​
 
-### Week 2: Remembering Choices
-*Coming soon...*
+# Learning Log
+​
+## Week 2
+​
+### What I Learned
+I learned how to define variables and modes in figma and transfer them to code​
+​
+### What Was Hard
+It was hard to figure out naming conventions at first, but I got the hang of it. ​
+​
+### How I Used AI
+I used AI to help organize and clean up my code, and to provide feedback on naming conventions​
+​
+### What's Still Unclear
+I don't know how to code JS by myself, and im unsure if i will get there, but I am starting to understand it better.​
+​
+
 
 ---
 
