@@ -146,7 +146,6 @@ main {
 }
 .portfolio-card {
   width: 784px;
-  background: var(--color__bg__main);
   padding: 1px;
 }
 .portfolio-card img {

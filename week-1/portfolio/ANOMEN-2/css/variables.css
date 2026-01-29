@@ -27,9 +27,9 @@
   --color__text__primary: var(--color__neutral__90);
   --color__text__black: var(--color__neutral__100);
   --color__bg__lines__strokes: var(--color__neutral__90);
-  --color-bg-main: #f8f5ef;
-  --color-text-primary: #0a0908;
-  --color-bg-lines: #0a0908;
+  --color-bg-main: var(--color__neutral__50);
+  --color-text-primary: var(--color__neutral__90);
+  --color-bg-lines: var(--color__neutral__90);
 }
 
 /* Dark mode  */
@@ -40,9 +40,9 @@
   --color__text__primary: var(--color__neutral__50);
   --color__text__black: var(--color__neutral__50);
   --color__bg__lines__strokes: var(--color__neutral__50);
-  --color-bg-main: #0a0908;
-  --color-text-primary: #f8f5ef;
-  --color-bg-lines: #f8f5ef;
+  --color-bg-main: var(--color__neutral__90);
+  --color-text-primary: var(--color__neutral__50);
+  --color-bg-lines: var(--color__neutral__50);
 }
 
 /* Typography Tokens */
