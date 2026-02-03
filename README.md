@@ -98,7 +98,22 @@ I used AI to help organize and clean up my code, and to provide feedback on nami
 ### What's Still Unclear
 I don't know how to code JS by myself, and im unsure if i will get there, but I am starting to understand it better.​
 ​
-
+​
+## Week 3
+​
+### What I Learned
+Design tokens, state vs appearance, system preference, persistence. Learned how to add a button that toggles theme data, how to save user preference, and how to load user preference as a default upon re-entry to the webpage
+​
+​
+### What Was Hard
+It was hard to get the code right. Took trial and error. ​
+​
+### How I Used AI
+I used AI to help look over my code and help me find errors while implementing the new element. ​
+​
+### What's Still Unclear
+I am understanding what we are learning this week. I feel good about dataset java regarding theme right now. I don't full understand the code, ie the variable naming conventions, but I understand where to apply it and what it does. ​
+​
 
 ---
 
