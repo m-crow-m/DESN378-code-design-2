@@ -1,6 +1,13 @@
+// Priority: User pref → System preference → Default light theme
 const savedTheme = localStorage.getItem('theme');
+
 if (savedTheme) {
+  // User has made a choice — respect it
   document.documentElement.dataset.theme = savedTheme;
+} else {
+  // No saved choice — check system preference
+  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+  document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
 }
 
 const PROJECTS = [

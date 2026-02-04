@@ -194,3 +194,22 @@ body > *:not(.paper-bg) {
   position: relative;
   z-index: 1;
 }
+
+/* media querie: Focus state - visible outline for keyboard users */
+.theme-toggle:focus {
+  outline: 2px solid var(--color__text__primary);
+  outline-offset: 2px;
+}
+
+/* enhanced focus visibility on dark theme */
+:root[data-theme="dark"] .theme-toggle:focus {
+  outline-color: var(--color__text__primary);
+}
+
+/* Respect user's motion preference - disable animations if they prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
