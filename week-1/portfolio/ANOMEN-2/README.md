@@ -38,6 +38,17 @@ This approach separates *design decisions* (what colors/spacing we use) from *co
 
 ---
 
+## Reflection
+
+**Icon design**
+The System icon combines light and dark halves to signal that it is a blend of both. I wanted it to read as "the device decides," so the icon shows a split sun/moon idea rather than committing to one side.
+
+**System logic**
+System is handled differently because it does not store a fixed color. When I choose System, I set the theme based on `prefers-color-scheme` and listen for OS changes so the page updates automatically. Light and Dark set a concrete value and ignore OS changes until I switch back to System.
+
+**Unexpected learning**
+I was surprised that SVGs can block clicks depending on how they are layered, and that dropdowns can become unclickable when they overlap other sections. It reminded me that layout and stacking order matter just as much as the JS logic.
+
 ## Assets Folder
 
 This folder contains all static assets for the portfolio project.

@@ -1,13 +1,23 @@
 // Priority: User pref → System preference → Default light theme
-const savedTheme = localStorage.getItem('theme');
+const THEME_STORAGE_KEY = 'theme';
+const systemQuery = window.matchMedia('(prefers-color-scheme: dark)');
+
+function applyThemeSetting(setting) {
+  if (setting === 'system') {
+    document.documentElement.dataset.theme = systemQuery.matches ? 'dark' : 'light';
+  } else {
+    document.documentElement.dataset.theme = setting;
+  }
+}
+
+const savedTheme = localStorage.getItem(THEME_STORAGE_KEY);
 
 if (savedTheme) {
   // User has made a choice — respect it
-  document.documentElement.dataset.theme = savedTheme;
+  applyThemeSetting(savedTheme);
 } else {
   // No saved choice — check system preference
-  const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-  document.documentElement.dataset.theme = prefersDark ? 'dark' : 'light';
+  applyThemeSetting('system');
 }
 
 const PROJECTS = [
@@ -62,21 +72,89 @@ function closeDetails() {
   document.getElementById('details').classList.add('hidden');
 }
 
-// Step 1: Find the button
-// What selector goes here? Look at your HTML — what class is on the button?
-const toggle = document.querySelector(".theme-toggle");
+const dropdown = document.querySelector('.dropdown');
+const dropdownTrigger = document.querySelector('.theme-trigger');
+const dropdownMenu = document.querySelector('.dropdown-content');
+const themeButtons = document.querySelectorAll('.dropdown-content button[data-theme]');
 
-// Step 2: Listen for clicks
-toggle.addEventListener('click', function() {
-  console.log('clicked!');
-  // Toggle between light and dark themes using data-theme attribute
-  const currentTheme = document.documentElement.dataset.theme;;
-  let newTheme;
-  if (currentTheme === 'dark') {
-    newTheme = 'light';
-  } else {
-    newTheme = 'dark';
+function updateSelectedTheme(setting) {
+  themeButtons.forEach((button) => {
+    const isSelected = button.dataset.theme === setting;
+    button.classList.toggle('is-selected', isSelected);
+  });
+}
+
+function positionDropdownMenu() {
+  if (!dropdownTrigger || !dropdownMenu) return;
+  const rect = dropdownTrigger.getBoundingClientRect();
+  dropdownMenu.style.top = `${Math.round(rect.bottom + 8)}px`;
+  dropdownMenu.style.left = `${Math.round(rect.left)}px`;
+}
+
+function setDropdownOpen(isOpen) {
+  if (!dropdown) return;
+  dropdown.classList.toggle('is-open', isOpen);
+  document.body.classList.toggle('dropdown-open', isOpen);
+  if (isOpen) {
+    positionDropdownMenu();
   }
-  document.documentElement.dataset.theme = newTheme;
-  localStorage.setItem('theme', newTheme);  // NEW: Save to memory
+}
+
+if (savedTheme) {
+  updateSelectedTheme(savedTheme);
+} else {
+  updateSelectedTheme('system');
+}
+
+if (dropdown && dropdownTrigger) {
+  dropdownTrigger.addEventListener('click', (event) => {
+    event.stopPropagation();
+    const isOpening = !dropdown.classList.contains('is-open');
+    setDropdownOpen(isOpening);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!dropdown.contains(event.target)) {
+      setDropdownOpen(false);
+    }
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') {
+      setDropdownOpen(false);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    if (dropdown.classList.contains('is-open')) {
+      positionDropdownMenu();
+    }
+  });
+
+  window.addEventListener('scroll', () => {
+    if (dropdown.classList.contains('is-open')) {
+      positionDropdownMenu();
+    }
+  });
+}
+
+if (dropdownMenu) {
+  dropdownMenu.addEventListener('click', (event) => {
+    const button = event.target.closest('button[data-theme]');
+    if (!button) return;
+    const nextTheme = button.dataset.theme;
+    if (!nextTheme) return;
+    applyThemeSetting(nextTheme);
+    localStorage.setItem(THEME_STORAGE_KEY, nextTheme);
+    updateSelectedTheme(nextTheme);
+    setDropdownOpen(false);
+  });
+}
+
+systemQuery.addEventListener('change', () => {
+  const storedTheme = localStorage.getItem(THEME_STORAGE_KEY);
+  if (!storedTheme || storedTheme === 'system') {
+    applyThemeSetting('system');
+    updateSelectedTheme('system');
+  }
 });

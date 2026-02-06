@@ -14,10 +14,86 @@
   <div class="paper-bg"></div>
   <nav>
     <span>ANOMEN</span>
-    <div>
-      <button class="theme-toggle" type="button" aria-label="Toggle dark and light theme">
-  Toggle Theme
-</button>
+    <div class="nav-items">
+      <div class="dropdown">
+  <button class="theme-trigger">
+    <!-- Current theme icon goes here -->
+    <span>Theme</span>
+  </button>
+  <div class="dropdown-content">
+    <button data-theme="system">
+<svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+  <defs>
+    <clipPath id="h">
+      <rect x="12" y="0" width="12" height="24" />
+    </clipPath>
+  </defs>
+
+  <rect width="24" height="24" fill="#fff" />
+  <circle cx="12" cy="12" r="12" fill="currentColor" />
+
+  <g fill="#fff">
+    <circle cx="12" cy="2.2" r="1.6" transform="rotate(45 12 2.2)" />
+    <circle cx="2.2" cy="12.2" r="1.6" transform="rotate(45 2.2 12.2)" />
+    <circle cx="22.2" cy="12.2" r="1.6" transform="rotate(45 22.2 12.2)" />
+    <circle cx="12" cy="22.2" r="1.6" transform="rotate(45 12 22.2)" />
+
+    <ellipse cx="19.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 19.1 5.1)" />
+    <ellipse cx="5.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 5.1 5.1)" />
+    <ellipse cx="19.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 19.1 19.5)" />
+    <ellipse cx="5.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 5.1 19.5)" />
+  </g>
+
+  <g clip-path="url(#h)">
+    <rect x="12" y="0" width="12" height="24" fill="currentColor" />
+    <circle cx="12" cy="12" r="12" fill="#fff" />
+
+    <g fill="currentColor">
+      <circle cx="12" cy="2.2" r="1.6" transform="rotate(-45 12 2.2)" />
+      <circle cx="2.2" cy="12.2" r="1.6" transform="rotate(-45 2.2 12.2)" />
+      <circle cx="22.2" cy="12.2" r="1.6" transform="rotate(-45 22.2 12.2)" />
+      <circle cx="12" cy="22.2" r="1.6" transform="rotate(-45 12 22.2)" />
+
+      <ellipse cx="19.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(-45 19.1 5.1)" />
+      <ellipse cx="5.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(-45 5.1 5.1)" />
+      <ellipse cx="19.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(-45 19.1 19.5)" />
+      <ellipse cx="5.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(-45 5.1 19.5)" />
+    </g>
+  </g>
+</svg>
+    </button>
+    <button data-theme="light">
+<svg class="icon" width="24" height="24" viewBox="0 0 24 24">
+  <rect width="24" height="24" fill="currentColor" />
+  <circle cx="12" cy="12" r="12" fill="#fff" />
+
+  <circle cx="12" cy="2.2" r="1.6" transform="rotate(45 12 2.2)" fill="currentColor" />
+  <circle cx="2.2" cy="12.2" r="1.6" transform="rotate(45 2.2 12.2)" fill="currentColor" />
+  <circle cx="22.2" cy="12.2" r="1.6" transform="rotate(45 22.2 12.2)" fill="currentColor" />
+  <circle cx="12" cy="22.2" r="1.6" transform="rotate(45 12 22.2)" fill="currentColor" />
+
+  <ellipse cx="19.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 19.1 5.1)" fill="currentColor" />
+  <ellipse cx="5.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 5.1 5.1)" fill="currentColor" />
+  <ellipse cx="19.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 19.1 19.5)" fill="currentColor" />
+  <ellipse cx="5.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 5.1 19.5)" fill="currentColor" />
+</svg>
+    </button>
+    <button data-theme="dark">
+<svg class="icon" width="24" height="24" viewBox="0 0 24 24" >
+  <rect width="24" height="24" fill="currentColor" />
+
+  <circle cx="12" cy="2.2" r="1.6" transform="rotate(45 12 2.2)" fill="#fff" />
+  <circle cx="2.2" cy="12.2" r="1.6" transform="rotate(45 2.2 12.2)" fill="#fff" />
+  <circle cx="22.2" cy="12.2" r="1.6" transform="rotate(45 22.2 12.2)" fill="#fff" />
+  <circle cx="12" cy="22.2" r="1.6" transform="rotate(45 12 22.2)" fill="#fff" />
+
+  <ellipse cx="19.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 19.1 5.1)" fill="#fff" />
+  <ellipse cx="5.1" cy="5.1" rx="2.5" ry="0.5" transform="rotate(45 5.1 5.1)" fill="#fff" />
+  <ellipse cx="19.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 19.1 19.5)" fill="#fff" />
+  <ellipse cx="5.1" cy="19.5" rx="2.5" ry="0.5" transform="rotate(45 5.1 19.5)" fill="#fff" />
+</svg>    </button>
+  </div>
+      </div>
       <span>STORE</span>
       <span>CONTACT</span>
       <span>CART</span>
