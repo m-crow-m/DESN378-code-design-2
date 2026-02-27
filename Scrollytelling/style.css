@@ -1,13 +1,10 @@
 :root {
-    --bg-color: #212426;
-    --gray-90: #212426;
-    --gray-75: #3f3d40;
-    --gray-50: #6c7173;
-    --gray-25: #babfbf;
-    --gray-10: #f2f2f2;
-    --accent-red: #d61d00;
-    --glass-bg: rgba(37, 40, 42, 0.5);
-    --glass-border: rgba(242, 242, 242, 0.08);
+    --primitive-grey-90: #212426;
+    --primitive-grey-75: #3f3d40;
+    --primitive-grey-50: #6c7173;
+    --primitive-grey-25: #babfbf;
+    --primitive-grey-10: #f2f2f2;
+    --primitive-red-90: #d61d00;
     --pixel-font: "Workbench", sans-serif;
     --body-font: "Instrument Sans", sans-serif;
     --jitter-x: 0px;
@@ -26,11 +23,27 @@ html {
 
 body {
     min-height: 100vh;
-    color: var(--gray-10);
+    color: var(--color-text);
     font-family: var(--body-font);
     overflow-x: hidden;
     line-height: 1.5;
     background: transparent;
+    --color-bg: var(--primitive-grey-90);
+    --color-surface: var(--primitive-grey-75);
+    --color-surface-2: var(--primitive-grey-50);
+    --color-muted: var(--primitive-grey-25);
+    --color-text: var(--primitive-grey-10);
+    --color-accent: var(--primitive-red-90);
+    --color-panel-bg: rgba(37, 40, 42, 0.5);
+    --color-panel-border: rgba(242, 242, 242, 0.08);
+    --color-console-bg: rgba(23, 26, 28, 0.9);
+    --color-console-divider: rgba(255, 255, 255, 0.05);
+    --color-grid-line: rgba(255, 255, 255, 0.045);
+    --color-noise-blend: overlay;
+    --color-bg-highlight: rgba(242, 242, 242, 0.12);
+    --color-bg-accent: rgba(214, 29, 0, 0.12);
+    --color-shadow: rgba(0, 0, 0, 0.35);
+    --color-glow: rgba(0, 0, 0, 0.32);
 }
 
 #background-layer {
@@ -39,9 +52,9 @@ body {
     z-index: -3;
     pointer-events: none;
     background:
-        radial-gradient(circle at 18% 24%, rgba(242, 242, 242, 0.12), transparent 24%),
-        radial-gradient(circle at 78% 28%, rgba(214, 29, 0, 0.12), transparent 18%),
-        conic-gradient(from 180deg at 50% 50%, #212426 0deg, #6d7275 180deg, #212426 360deg);
+        radial-gradient(circle at 18% 24%, var(--color-bg-highlight), transparent 24%),
+        radial-gradient(circle at 78% 28%, var(--color-bg-accent), transparent 18%),
+        conic-gradient(from 180deg at 50% 50%, var(--color-bg) 0deg, var(--color-surface-2) 180deg, var(--color-bg) 360deg);
     filter: blur(58px) saturate(112%);
     transform: scale(1.08);
 }
@@ -63,7 +76,7 @@ body {
     pointer-events: none;
     z-index: 1000;
     opacity: 0.14;
-    mix-blend-mode: overlay;
+    mix-blend-mode: var(--color-noise-blend);
     filter: blur(0.25px) contrast(160%);
     image-rendering: auto;
 }
@@ -75,8 +88,8 @@ body {
     z-index: 999;
     opacity: 0;
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+        linear-gradient(var(--color-grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--color-grid-line) 1px, transparent 1px);
     background-size: 40px 40px;
 }
 
@@ -98,7 +111,7 @@ h2 {
 
 p {
     font-size: 1.25rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
 }
 
 .fixed-header {
@@ -123,7 +136,7 @@ p {
 
 .readout .label {
     font-size: 0.65rem;
-    color: var(--gray-50);
+    color: var(--color-surface-2);
 }
 
 .readout .value {
@@ -162,11 +175,11 @@ p {
     display: block;
     width: min(520px, 60vh);
     height: auto;
-    color: var(--accent-red);
+    color: var(--color-accent);
     transform: rotate(-90deg);
     overflow: visible;
     opacity: 0.92;
-    filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.32));
+    filter: drop-shadow(0 18px 35px var(--color-glow));
 }
 
 #rfMeter .rf-bars rect {
@@ -209,7 +222,7 @@ p {
 
 .tutorial-column h2 {
     font-size: 2rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
     margin-bottom: 3rem;
     font-weight: 400;
 }
@@ -222,13 +235,13 @@ p {
 
 .tutorial-section p {
     font-size: 1rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
     max-width: 400px;
     margin-left: auto;
 }
 
 .code-snippet {
-    background: var(--gray-75);
+    background: var(--color-surface);
     padding: 1rem;
     border-radius: 4px;
     font-family: monospace;
@@ -238,13 +251,13 @@ p {
 }
 
 .code-snippet.output {
-    background: var(--gray-50);
-    color: var(--gray-90);
+    background: var(--color-surface-2);
+    color: var(--color-bg);
 }
 
 .tutorial-troubleshoot {
     font-size: 0.9rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
 }
 
 .tutorial-troubleshoot ul {
@@ -262,7 +275,7 @@ p {
 .console-window {
     width: 100%;
     max-width: 600px;
-    background: rgba(23, 26, 28, 0.9);
+    background: var(--color-console-bg);
     border-radius: 12px;
     overflow: hidden;
     box-shadow: 0 50px 100px rgba(0, 0, 0, 0.4);
@@ -274,7 +287,7 @@ p {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid var(--color-console-divider);
 }
 
 .console-controls .dot {
@@ -285,12 +298,12 @@ p {
 }
 
 .console-controls .dot.red {
-    background: var(--accent-red);
+    background: var(--color-accent);
 }
 
 .console-title,
 .console-divider {
-    color: var(--gray-50);
+    color: var(--color-surface-2);
 }
 
 .console-title {
@@ -311,8 +324,8 @@ p {
 .console-divider {
     padding: 0.5rem 1.5rem;
     background: rgba(255, 255, 255, 0.02);
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    border-top: 1px solid var(--color-console-divider);
+    border-bottom: 1px solid var(--color-console-divider);
     display: flex;
     justify-content: space-between;
     font-size: 0.75rem;
@@ -329,12 +342,12 @@ p {
 #console-output p {
     font-family: monospace;
     font-size: 0.9rem;
-    color: #d9f0d1;
+    color: var(--color-accent);
     margin-bottom: 0.5rem;
 }
 
 #console-output p.system-msg {
-    color: var(--gray-10);
+    color: var(--color-text);
 }
 
 .input-line {
@@ -342,14 +355,14 @@ p {
 }
 
 .input-line .prompt {
-    color: #d9f0d1;
+    color: var(--color-accent);
     margin-right: 0.5rem;
 }
 
 .cursor {
     width: 8px;
     height: 1.2rem;
-    background: #d9f0d1;
+    background: var(--color-accent);
     animation: blink 1s infinite step-end;
 }
 
@@ -364,9 +377,9 @@ p {
     bottom: 2rem;
     left: 50%;
     width: min(90%, 1200px);
-    background: var(--glass-bg);
+    background: var(--color-panel-bg);
     backdrop-filter: blur(22px);
-    border: 1px solid var(--glass-border);
+    border: 1px solid var(--color-panel-border);
     border-radius: 20px;
     padding: 1.5rem 2rem;
     z-index: 200;
@@ -398,7 +411,7 @@ p {
 
 .knob-label {
     font-size: 0.65rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
 }
 
 #knobSvg {
@@ -406,7 +419,7 @@ p {
     height: 92px;
     display: block;
     overflow: visible;
-    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+    filter: drop-shadow(0 18px 30px var(--color-shadow));
 }
 
 #knobSvg #knob > circle,
@@ -416,7 +429,7 @@ p {
 
 .status-text {
     font-size: 0.95rem;
-    color: var(--gray-25);
+    color: var(--color-muted);
     text-transform: uppercase;
     letter-spacing: 0.08em;
 }
@@ -431,9 +444,9 @@ p {
     width: 44px;
     height: 44px;
     border-radius: 999px;
-    border: 1px solid rgba(242, 242, 242, 0.14);
-    background: rgba(255, 255, 255, 0.02);
-    color: var(--gray-10);
+    border: 1px solid var(--color-panel-border);
+    background: color-mix(in srgb, var(--color-panel-bg), transparent 25%);
+    color: var(--color-text);
     font: inherit;
     font-size: 1rem;
     line-height: 1;
@@ -480,7 +493,7 @@ p {
     position: absolute;
     cursor: pointer;
     inset: 0;
-    background-color: var(--gray-75);
+    background-color: var(--color-surface);
     border-radius: 34px;
 }
 
@@ -491,12 +504,12 @@ p {
     width: 16px;
     left: 4px;
     bottom: 4px;
-    background-color: white;
+    background-color: var(--color-text);
     border-radius: 50%;
 }
 
 input:checked + .slider {
-    background-color: var(--accent-red);
+    background-color: var(--color-accent);
 }
 
 input:checked + .slider::before {
@@ -521,7 +534,53 @@ body.phase-collapse #control-panel {
 }
 
 body.phase-aftermath .status-text {
-    color: var(--gray-10);
+    color: var(--color-text);
+}
+
+body.mode-light {
+    --color-bg: var(--primitive-grey-10);
+    --color-surface: var(--primitive-grey-25);
+    --color-surface-2: var(--primitive-grey-50);
+    --color-muted: var(--primitive-grey-75);
+    --color-text: var(--primitive-grey-90);
+    --color-accent: var(--primitive-red-90);
+    --color-panel-bg: rgba(242, 242, 242, 0.58);
+    --color-panel-border: rgba(33, 36, 38, 0.14);
+    --color-console-bg: rgba(250, 250, 250, 0.88);
+    --color-console-divider: rgba(33, 36, 38, 0.08);
+    --color-grid-line: rgba(33, 36, 38, 0.08);
+    --color-noise-blend: multiply;
+    --color-bg-highlight: rgba(33, 36, 38, 0.09);
+    --color-bg-accent: rgba(214, 29, 0, 0.08);
+    --color-shadow: rgba(33, 36, 38, 0.16);
+    --color-glow: rgba(33, 36, 38, 0.15);
+}
+
+body.mode-dark {
+    --color-bg: var(--primitive-grey-90);
+    --color-surface: var(--primitive-grey-75);
+    --color-surface-2: var(--primitive-grey-50);
+    --color-muted: var(--primitive-grey-25);
+    --color-text: var(--primitive-grey-10);
+    --color-accent: var(--primitive-red-90);
+    --color-panel-bg: rgba(37, 40, 42, 0.5);
+    --color-panel-border: rgba(242, 242, 242, 0.08);
+    --color-console-bg: rgba(23, 26, 28, 0.9);
+    --color-console-divider: rgba(255, 255, 255, 0.05);
+    --color-grid-line: rgba(255, 255, 255, 0.045);
+    --color-noise-blend: overlay;
+    --color-bg-highlight: rgba(242, 242, 242, 0.12);
+    --color-bg-accent: rgba(214, 29, 0, 0.12);
+    --color-shadow: rgba(0, 0, 0, 0.35);
+    --color-glow: rgba(0, 0, 0, 0.32);
+}
+
+body.mode-glitch {
+    isolation: isolate;
+}
+
+body.mode-glitch #viewport-content {
+    mix-blend-mode: difference;
 }
 
 @media (max-width: 1080px) {

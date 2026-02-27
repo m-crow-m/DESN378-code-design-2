@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const toggleFocus = document.getElementById("toggle-focus");
     const toggleJitter = document.getElementById("toggle-jitter");
-    const toggleGrid = document.getElementById("toggle-grid");
+    const toggleMode = document.getElementById("toggle-grid");
     const toggleNoise = document.getElementById("toggle-noise");
 
     const tutorialCode = 'console.log("Hello, world!");';
@@ -62,6 +62,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let lastScrollY = window.scrollY;
     let knobRotation = 0;
     let focusPlaneIndex = 2;
+    let currentMode = "dark";
+    let lockedMode = null;
+    let modeGlitchActive = false;
     const originalTexts = new Map();
     const textElements = tutorialTextContainer.querySelectorAll("h1, h2, h3, h4, p, div.code-snippet, li");
 
@@ -87,6 +90,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const chars = "ABCDEFGHIJKLMN0123456789!@#$%^&*()_+{}[]|;:,.<>?";
 
+    function setModeClass(mode) {
+        document.body.classList.remove("mode-light", "mode-dark");
+        document.body.classList.add(`mode-${mode}`);
+    }
+
     function clamp(value, min, max) {
         return Math.min(Math.max(value, min), max);
     }
@@ -107,6 +115,69 @@ document.addEventListener("DOMContentLoaded", () => {
         return phases.reduce((active, phase) => {
             return progress >= phase.threshold ? phase : active;
         }, phases[0]);
+    }
+
+    function getAutoMode(progress) {
+        if (progress < 0.18) return "dark";
+
+        const instability =
+            Math.sin(progress * 18) +
+            Math.sin(progress * 46) * 0.55 +
+            Math.sin(progress * 93) * 0.18;
+
+        if (progress < 0.42) return instability > 0.9 ? "light" : "dark";
+        if (progress < 0.78) return instability > 0.05 ? "light" : "dark";
+        return instability > 0.55 ? "light" : "dark";
+    }
+
+    function applyMode(mode, { glitch = false } = {}) {
+        if (currentMode === mode && !glitch) return;
+
+        if (!glitch || modeGlitchActive) {
+            currentMode = mode;
+            setModeClass(mode);
+            return;
+        }
+
+        modeGlitchActive = true;
+        const alternate = mode === "dark" ? "light" : "dark";
+        const timeline = gsap.timeline({
+            defaults: { ease: "steps(1)" },
+            onComplete: () => {
+                currentMode = mode;
+                setModeClass(mode);
+                document.body.classList.remove("mode-glitch");
+                gsap.set([document.body, viewport], { clearProps: "opacity,filter" });
+                modeGlitchActive = false;
+            }
+        });
+
+        document.body.classList.add("mode-glitch");
+        timeline
+            .call(() => setModeClass(alternate))
+            .to(document.body, { opacity: 0.92, duration: 0.04 }, 0)
+            .call(() => setModeClass(mode))
+            .to(viewport, { filter: "contrast(1.12)", duration: 0.05 }, "<")
+            .call(() => setModeClass(alternate))
+            .to(viewport, { x: "+=2", duration: 0.03, yoyo: true, repeat: 1 }, "<")
+            .call(() => setModeClass(mode))
+            .to(document.body, { opacity: 1, duration: 0.08 });
+    }
+
+    function updateModeState() {
+        if (toggleMode.checked) {
+            if (!lockedMode) {
+                lockedMode = currentMode === "dark" ? "light" : "dark";
+                applyMode(lockedMode, { glitch: true });
+            } else {
+                applyMode(lockedMode, { glitch: false });
+            }
+            return;
+        }
+
+        lockedMode = null;
+        const autoMode = getAutoMode(scrollProgress);
+        applyMode(autoMode, { glitch: scrollProgress > 0.24 && autoMode !== currentMode });
     }
 
     function buildRfMeter() {
@@ -271,7 +342,7 @@ document.addEventListener("DOMContentLoaded", () => {
             element.textContent = scramble(originalText, scrambleIntensity);
         });
 
-        setGridOpacity(toggleGrid.checked || scrollProgress > 0.82 ? 1 : 0);
+        setGridOpacity(scrollProgress > 0.82 ? 1 : 0);
         setNoiseOpacity(Number(noiseOpacity.toFixed(2)));
         const plane = focusPlanes[focusPlaneIndex];
         const tutorialBlur = blurAmount * plane.tutorial;
@@ -394,6 +465,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollProgress = clamp(scrollProgress, 0, 1);
 
         updateKnobRotation();
+        updateModeState();
         applyPhase(getPhase(scrollProgress));
         applyChaos();
         updateReadouts();
@@ -401,7 +473,7 @@ document.addEventListener("DOMContentLoaded", () => {
         updateControlPanel();
     }
 
-    [toggleFocus, toggleJitter, toggleGrid, toggleNoise].forEach((toggle) => {
+    [toggleFocus, toggleJitter, toggleMode, toggleNoise].forEach((toggle) => {
         toggle.addEventListener("change", update);
     });
 
@@ -435,6 +507,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     buildRfMeter();
     setFocusPlane(2);
+    setModeClass("dark");
     resizeNoise();
     renderNoise();
     applyPhase(phases[0]);
