@@ -192,6 +192,7 @@ p {
 }
 
 .tutorial-column {
+    position: relative;
     text-align: right;
     display: flex;
     flex-direction: column;
@@ -252,6 +253,7 @@ p {
 }
 
 .console-column {
+    position: relative;
     display: flex;
     justify-content: flex-start;
     filter: blur(0px);
@@ -444,6 +446,10 @@ p {
     color: #fff;
 }
 
+.depth-button.is-disabled {
+    opacity: 0.32;
+}
+
 .toggles-module {
     display: grid;
     grid-template-columns: repeat(2, min-content);
@@ -516,20 +522,6 @@ body.phase-collapse #control-panel {
 
 body.phase-aftermath .status-text {
     color: var(--gray-10);
-}
-
-body.console-priority .console-column {
-    position: relative;
-    z-index: 7;
-}
-
-body.console-priority .tutorial-column {
-    position: relative;
-    z-index: 2;
-}
-
-body.console-priority .rf-meter-shell {
-    opacity: 0.5;
 }
 
 @media (max-width: 1080px) {

@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const tutorialLayout = document.querySelector(".tutorial-layout");
     const tutorialColumn = document.querySelector(".tutorial-column");
     const consoleColumn = document.querySelector(".console-column");
+    const consoleWindow = document.getElementById("main-console");
     const rfMeterShell = document.querySelector(".rf-meter-shell");
     const readoutNoise = document.querySelector("#readout-noise .value");
     const readoutFreq = document.querySelector("#readout-frequency .value");
@@ -41,6 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
         { name: "collapse", threshold: 0.7, label: "the collapse" },
         { name: "aftermath", threshold: 0.88, label: "the end" }
     ];
+    const focusPlanes = [
+        { tutorial: 1.15, console: 1.15, meter: 0, header: 0.25, panel: 0.4, tutorialZ: 2, consoleZ: 2, meterZ: 9 },
+        { tutorial: 0.82, console: 1.05, meter: 0.08, header: 0.45, panel: 0.55, tutorialZ: 3, consoleZ: 2, meterZ: 8 },
+        { tutorial: 0.35, console: 0.72, meter: 0.28, header: 0.65, panel: 0.75, tutorialZ: 4, consoleZ: 3, meterZ: 7 },
+        { tutorial: 0, console: 0.38, meter: 0.58, header: 0.92, panel: 1, tutorialZ: 8, consoleZ: 4, meterZ: 6 },
+        { tutorial: 0.38, console: 0, meter: 0.82, header: 1.05, panel: 1.08, tutorialZ: 5, consoleZ: 8, meterZ: 5 },
+        { tutorial: 0.9, console: 0.35, meter: 1.05, header: 0.75, panel: 0.85, tutorialZ: 3, consoleZ: 6, meterZ: 4 },
+        { tutorial: 1.15, console: 1.1, meter: 1.15, header: 0.45, panel: 0.55, tutorialZ: 2, consoleZ: 2, meterZ: 3 }
+    ];
 
     let scrollProgress = 0;
     let lastLoggedIndex = -1;
@@ -51,7 +61,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentPhase = null;
     let lastScrollY = window.scrollY;
     let knobRotation = 0;
-    let depthMode = "base";
+    let focusPlaneIndex = 2;
     const originalTexts = new Map();
     const textElements = tutorialTextContainer.querySelectorAll("h1, h2, h3, h4, p, div.code-snippet, li");
 
@@ -60,6 +70,9 @@ document.addEventListener("DOMContentLoaded", () => {
     gsap.set(tutorialLayout, { x: 0, y: 0 });
     gsap.set(tutorialColumn, { filter: "blur(0px)" });
     gsap.set(consoleColumn, { filter: "blur(0px)" });
+    gsap.set(consoleWindow, { filter: "blur(0px)" });
+    gsap.set(rfMeterShell, { filter: "blur(0px)" });
+    gsap.set(header, { filter: "blur(0px)" });
 
     const setNoiseOpacity = gsap.quickTo(noiseCanvas, "opacity", { duration: 0.22, ease: "power2.out" });
     const setGridOpacity = gsap.quickTo(gridOverlay, "opacity", { duration: 0.24, ease: "power2.out" });
@@ -220,24 +233,28 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    function setDepthMode(mode) {
-        depthMode = mode;
-        document.body.classList.toggle("console-priority", mode === "up");
-        depthUp.classList.toggle("is-active", mode === "up");
-        depthDown.classList.toggle("is-active", mode === "down");
+    function setFocusPlane(index) {
+        focusPlaneIndex = clamp(index, 0, focusPlanes.length - 1);
+        const plane = focusPlanes[focusPlaneIndex];
+        const midpoint = Math.floor((focusPlanes.length - 1) / 2);
 
+        depthUp.classList.toggle("is-disabled", focusPlaneIndex === focusPlanes.length - 1);
+        depthDown.classList.toggle("is-disabled", focusPlaneIndex === 0);
+        depthUp.classList.toggle("is-active", focusPlaneIndex > midpoint);
+        depthDown.classList.toggle("is-active", focusPlaneIndex < midpoint);
         gsap.to(consoleColumn, {
-            zIndex: mode === "up" ? 8 : 1,
+            zIndex: plane.consoleZ,
             duration: 0.2,
             overwrite: true
         });
         gsap.to(tutorialColumn, {
-            zIndex: mode === "down" ? 8 : 2,
+            zIndex: plane.tutorialZ,
             duration: 0.2,
             overwrite: true
         });
         gsap.to(rfMeterShell, {
-            opacity: mode === "up" ? 0.5 : 0.92,
+            zIndex: plane.meterZ,
+            opacity: 1 - Math.min(plane.meter * 0.25, 0.35),
             duration: 0.2,
             overwrite: true
         });
@@ -256,8 +273,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
         setGridOpacity(toggleGrid.checked || scrollProgress > 0.82 ? 1 : 0);
         setNoiseOpacity(Number(noiseOpacity.toFixed(2)));
-        const tutorialBlur = depthMode === "down" ? 0 : blurAmount;
-        const consoleBlur = depthMode === "up" ? 0 : depthMode === "down" ? blurAmount : blurAmount * 0.58;
+        const plane = focusPlanes[focusPlaneIndex];
+        const tutorialBlur = blurAmount * plane.tutorial;
+        const consoleBlur = blurAmount * plane.console;
+        const meterBlur = blurAmount * plane.meter;
+        const headerBlur = blurAmount * plane.header;
+        const panelBlur = blurAmount * plane.panel;
 
         gsap.to(tutorialColumn, {
             filter: `blur(${tutorialBlur.toFixed(2)}px)`,
@@ -265,8 +286,26 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power2.out",
             overwrite: "auto"
         });
-        gsap.to(consoleColumn, {
+        gsap.to(consoleWindow, {
             filter: `blur(${consoleBlur.toFixed(2)}px)`,
+            duration: 0.24,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        gsap.to(rfMeterShell, {
+            filter: `blur(${meterBlur.toFixed(2)}px)`,
+            duration: 0.24,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        gsap.to(header, {
+            filter: `blur(${headerBlur.toFixed(2)}px)`,
+            duration: 0.24,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        gsap.to(controlPanel, {
+            filter: `blur(${panelBlur.toFixed(2)}px)`,
             duration: 0.24,
             ease: "power2.out",
             overwrite: "auto"
@@ -367,11 +406,13 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     depthUp.addEventListener("click", () => {
-        setDepthMode(depthMode === "up" ? "base" : "up");
+        setFocusPlane(focusPlaneIndex + 1);
+        update();
     });
 
     depthDown.addEventListener("click", () => {
-        setDepthMode(depthMode === "down" ? "base" : "down");
+        setFocusPlane(focusPlaneIndex - 1);
+        update();
     });
 
     window.addEventListener("scroll", update, { passive: true });
@@ -393,7 +434,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     buildRfMeter();
-    setDepthMode("base");
+    setFocusPlane(2);
     resizeNoise();
     renderNoise();
     applyPhase(phases[0]);
