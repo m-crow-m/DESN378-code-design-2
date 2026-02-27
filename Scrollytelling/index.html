@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Blueprint | CROW</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Workbench&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div id="noise-overlay"></div>
+    <div id="grid-overlay"></div>
+
+    <header class="fixed-header">
+        <div class="readout-container">
+            <div class="readout" id="readout-noise">
+                <span class="label">NOISE</span>
+                <span class="value">0.00</span>
+            </div>
+            <div class="readout" id="readout-frequency">
+                <span class="label">FREQUENCY</span>
+                <span class="value">0.00</span>
+            </div>
+            <div class="readout" id="readout-focus">
+                <span class="label">FOCUS</span>
+                <span class="value">SHARP</span>
+            </div>
+        </div>
+    </header>
+
+    <main id="scrolly-container">
+        <!-- The background sections that provide scroll depth -->
+        <div class="scroll-trigger" style="height: 500vh;"></div>
+
+        <!-- The fixed viewport content that changes based on scroll -->
+        <div id="viewport-content">
+            <div class="tutorial-layout">
+                <div class="tutorial-column" id="tutorial-text-container">
+                    <h1 class="pixel-font" id="main-title">JavaScript</h1>
+                    <h2 id="sub-title">The Basics</h2>
+
+                    <div class="tutorial-section">
+                        <h3>1.1 The Console</h3>
+                        <p>You’ll run one line of JavaScript and see text appear in the console. This is the fastest way
+                            to check that your code is actually running.</p>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 1</h4>
+                        <p>Type this in the editor and press Run:</p>
+                        <div class="code-snippet">console.log("Hello, world!");</div>
+
+                        <p>You should see this in the console output:</p>
+                        <div class="code-snippet output">Hello, world!</div>
+                    </div>
+
+                    <div class="tutorial-troubleshoot">
+                        <p><strong>If you don’t see anything, try these checks:</strong></p>
+                        <ul>
+                            <li>Make sure you typed <code>console.log</code> exactly (spelling and dots matter).</li>
+                            <li>Make sure your text is inside quotes: <code>" "</code>.</li>
+                        </ul>
+                    </div>
+
+                    <div class="tutorial-step">
+                        <h4>Step 2</h4>
+                        <p>Replace the text inside the quotes, then press Run again:</p>
+                    </div>
+                </div>
+
+                <div class="console-column">
+                    <div class="console-window" id="main-console">
+                        <div class="console-header">
+                            <div class="console-controls">
+                                <span class="dot red"></span>
+                            </div>
+                            <div class="console-title">Console</div>
+                            <div class="console-action-icon"></div>
+                        </div>
+                        <div class="console-body">
+                            <div class="console-input-area">
+                                <div class="input-line">
+                                    <span class="prompt">></span>
+                                    <span class="input-text" id="console-typing"></span>
+                                    <span class="cursor"></span>
+                                </div>
+                            </div>
+                            <div class="console-divider">
+                                <span>Output</span>
+                                <span class="help-icon">?</span>
+                            </div>
+                            <div class="console-output-area" id="console-output">
+                                <!-- Messages will be injected here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Control Panel (Glass-morphism) -->
+    <footer id="control-panel" class="glass-panel hidden">
+        <div class="panel-inner">
+            <div class="knob-module">
+                <div class="meter-vertical">
+                    <div class="meter-bar" id="freq-meter"></div>
+                </div>
+                <div class="knob-container">
+                    <div class="knob" id="ctrl-knob">
+                        <div class="knob-indicator"></div>
+                    </div>
+                    <span class="knob-label">FREQUENCY</span>
+                </div>
+            </div>
+
+            <div class="status-module">
+                <p class="status-text">In the middle of <span id="current-state-desc">nothing</span></p>
+            </div>
+
+            <div class="toggles-module">
+                <div class="toggle-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-focus">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">SHARPEN FOCUS</span>
+                </div>
+                <div class="toggle-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-jitter">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">REDUCE JITTER</span>
+                </div>
+                <div class="toggle-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-grid">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">RE-GRID</span>
+                </div>
+                <div class="toggle-group">
+                    <label class="toggle">
+                        <input type="checkbox" id="toggle-noise">
+                        <span class="slider"></span>
+                    </label>
+                    <span class="toggle-label">FADE NOISE</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
