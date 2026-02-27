@@ -1,19 +1,32 @@
 document.addEventListener("DOMContentLoaded", () => {
+    if (!window.gsap) {
+        console.error("GSAP failed to load.");
+        return;
+    }
+
+    const { gsap } = window;
     const tutorialTextContainer = document.getElementById("tutorial-text-container");
     const controlPanel = document.getElementById("control-panel");
     const consoleOutput = document.getElementById("console-output");
     const consoleTyping = document.getElementById("console-typing");
+    const tutorialLayout = document.querySelector(".tutorial-layout");
+    const tutorialColumn = document.querySelector(".tutorial-column");
+    const consoleColumn = document.querySelector(".console-column");
+    const rfMeterShell = document.querySelector(".rf-meter-shell");
     const readoutNoise = document.querySelector("#readout-noise .value");
     const readoutFreq = document.querySelector("#readout-frequency .value");
     const readoutFocus = document.querySelector("#readout-focus .value");
-    const freqMeter = document.getElementById("freq-meter");
-    const ctrlKnob = document.getElementById("ctrl-knob");
     const currentStateDesc = document.getElementById("current-state-desc");
     const header = document.querySelector(".fixed-header");
     const viewport = document.getElementById("viewport-content");
     const noiseCanvas = document.getElementById("noise-overlay");
     const noiseContext = noiseCanvas.getContext("2d", { alpha: true });
     const gridOverlay = document.getElementById("grid-overlay");
+    const knob = document.querySelector("#knob");
+    const rfBarsGroup = document.querySelector("#rfMeter .rf-bars");
+    const rfPeak = document.querySelector("#rfMeter .rf-peak");
+    const depthUp = document.getElementById("depth-up");
+    const depthDown = document.getElementById("depth-down");
 
     const toggleFocus = document.getElementById("toggle-focus");
     const toggleJitter = document.getElementById("toggle-jitter");
@@ -36,8 +49,24 @@ document.addEventListener("DOMContentLoaded", () => {
     let noiseHeight = 0;
     let noiseImage = null;
     let currentPhase = null;
+    let lastScrollY = window.scrollY;
+    let knobRotation = 0;
+    let depthMode = "base";
     const originalTexts = new Map();
     const textElements = tutorialTextContainer.querySelectorAll("h1, h2, h3, h4, p, div.code-snippet, li");
+
+    gsap.set(knob, { svgOrigin: "742 530", transformOrigin: "50% 50%" });
+    gsap.set(controlPanel, { xPercent: -50, yPercent: 150, opacity: 0.9 });
+    gsap.set(tutorialLayout, { x: 0, y: 0 });
+    gsap.set(tutorialColumn, { filter: "blur(0px)" });
+    gsap.set(consoleColumn, { filter: "blur(0px)" });
+
+    const setNoiseOpacity = gsap.quickTo(noiseCanvas, "opacity", { duration: 0.22, ease: "power2.out" });
+    const setGridOpacity = gsap.quickTo(gridOverlay, "opacity", { duration: 0.24, ease: "power2.out" });
+    const setViewportScale = gsap.quickTo(viewport, "scale", { duration: 0.45, ease: "power2.out" });
+    const setHeaderOpacity = gsap.quickTo(header, "opacity", { duration: 0.35, ease: "power2.out" });
+    const setJitterX = gsap.quickTo(tutorialLayout, "x", { duration: 0.08, ease: "none" });
+    const setJitterY = gsap.quickTo(tutorialLayout, "y", { duration: 0.08, ease: "none" });
 
     textElements.forEach((element) => {
         originalTexts.set(element, element.textContent);
@@ -65,6 +94,27 @@ document.addEventListener("DOMContentLoaded", () => {
         return phases.reduce((active, phase) => {
             return progress >= phase.threshold ? phase : active;
         }, phases[0]);
+    }
+
+    function buildRfMeter() {
+        const barCount = 28;
+        const startX = 26;
+        const gap = 17;
+        const barWidth = 10;
+        const baseY = 82;
+
+        rfBarsGroup.innerHTML = "";
+
+        for (let index = 0; index < barCount; index += 1) {
+            const bar = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+            bar.setAttribute("x", String(startX + index * gap));
+            bar.setAttribute("y", String(baseY));
+            bar.setAttribute("width", String(barWidth));
+            bar.setAttribute("height", "0");
+            bar.setAttribute("rx", "3");
+            bar.dataset.index = String(index);
+            rfBarsGroup.appendChild(bar);
+        }
     }
 
     function resizeNoise() {
@@ -126,40 +176,121 @@ document.addEventListener("DOMContentLoaded", () => {
         currentPhase = phase;
     }
 
+    function getBlurAmount() {
+        if (toggleFocus.checked) return 0;
+
+        const envelope = Math.pow(scrollProgress, 1.2);
+        const waveA = (Math.sin(scrollProgress * 10.5) + 1) * 0.5;
+        const waveB = (Math.sin(scrollProgress * 27 - 0.8) + 1) * 0.5;
+        const waveC = (Math.sin(scrollProgress * 53 + 1.4) + 1) * 0.5;
+        const pulseMix = waveA * 0.5 + waveB * 0.3 + waveC * 0.2;
+        const stutter = scrollProgress > 0.38 ? Math.abs(Math.sin(scrollProgress * 85)) * 0.18 : 0;
+
+        return (pulseMix + stutter) * envelope * 18;
+    }
+
+    function updateRfMeter(blurAmount) {
+        const bars = [...rfBarsGroup.querySelectorAll("rect")];
+        const normalized = clamp(blurAmount / 18, 0, 1);
+        let peakHeight = 0;
+        let peakX = 26;
+
+        bars.forEach((bar, index) => {
+            const wave = (Math.sin(scrollProgress * 11 + index * 0.45) + 1) * 0.5;
+            const ripple = (Math.sin(scrollProgress * 29 + index * 0.8) + 1) * 0.5;
+            const energy = clamp(normalized * 0.55 + wave * normalized * 0.35 + ripple * 0.22, 0.04, 1);
+            const height = 10 + energy * 54;
+            const y = 82 - height;
+
+            bar.setAttribute("y", y.toFixed(2));
+            bar.setAttribute("height", height.toFixed(2));
+            bar.setAttribute("opacity", (0.2 + energy * 0.8).toFixed(2));
+
+            if (height > peakHeight) {
+                peakHeight = height;
+                peakX = Number(bar.getAttribute("x")) + 5;
+            }
+        });
+
+        gsap.to(rfPeak, {
+            attr: { x1: peakX, x2: peakX },
+            duration: 0.18,
+            ease: "power1.out",
+            overwrite: true
+        });
+    }
+
+    function setDepthMode(mode) {
+        depthMode = mode;
+        document.body.classList.toggle("console-priority", mode === "up");
+        depthUp.classList.toggle("is-active", mode === "up");
+        depthDown.classList.toggle("is-active", mode === "down");
+
+        gsap.to(consoleColumn, {
+            zIndex: mode === "up" ? 8 : 1,
+            duration: 0.2,
+            overwrite: true
+        });
+        gsap.to(tutorialColumn, {
+            zIndex: mode === "down" ? 8 : 2,
+            duration: 0.2,
+            overwrite: true
+        });
+        gsap.to(rfMeterShell, {
+            opacity: mode === "up" ? 0.5 : 0.92,
+            duration: 0.2,
+            overwrite: true
+        });
+    }
+
     function applyChaos() {
         const scrambleIntensity = mapRange(scrollProgress, 0.16, 0.9) * 0.92;
-        const blurAmount = toggleFocus.checked ? 0 : mapRange(scrollProgress, 0.12, 0.92) * 9;
+        const blurAmount = getBlurAmount();
         const jitterAmount = toggleJitter.checked ? 0 : mapRange(scrollProgress, 0.28, 0.95) * 22;
-        const noiseOpacity = toggleNoise.checked ? 0.02 : 0.06 + mapRange(scrollProgress, 0, 1) * 0.18;
+        const noiseOpacity = toggleNoise.checked ? 0.03 : 0.14 + mapRange(scrollProgress, 0, 1) * 0.22;
 
         textElements.forEach((element) => {
             const originalText = originalTexts.get(element) || "";
             element.textContent = scramble(originalText, scrambleIntensity);
         });
 
-        gridOverlay.classList.toggle("active", toggleGrid.checked || scrollProgress > 0.82);
-        noiseCanvas.style.opacity = noiseOpacity.toFixed(2);
-        document.documentElement.style.setProperty("--focus-blur", `${blurAmount.toFixed(2)}px`);
+        setGridOpacity(toggleGrid.checked || scrollProgress > 0.82 ? 1 : 0);
+        setNoiseOpacity(Number(noiseOpacity.toFixed(2)));
+        const tutorialBlur = depthMode === "down" ? 0 : blurAmount;
+        const consoleBlur = depthMode === "up" ? 0 : depthMode === "down" ? blurAmount : blurAmount * 0.58;
+
+        gsap.to(tutorialColumn, {
+            filter: `blur(${tutorialBlur.toFixed(2)}px)`,
+            duration: 0.24,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        gsap.to(consoleColumn, {
+            filter: `blur(${consoleBlur.toFixed(2)}px)`,
+            duration: 0.24,
+            ease: "power2.out",
+            overwrite: "auto"
+        });
+        updateRfMeter(blurAmount);
 
         const jitterX = jitterAmount > 0 ? (Math.random() - 0.5) * jitterAmount : 0;
         const jitterY = jitterAmount > 0 ? (Math.random() - 0.5) * jitterAmount * 0.6 : 0;
-        document.documentElement.style.setProperty("--jitter-x", `${jitterX.toFixed(2)}px`);
-        document.documentElement.style.setProperty("--jitter-y", `${jitterY.toFixed(2)}px`);
+        setJitterX(Number(jitterX.toFixed(2)));
+        setJitterY(Number(jitterY.toFixed(2)));
 
-        viewport.style.transform = scrollProgress > 0.86 ? `scale(${1 - mapRange(scrollProgress, 0.86, 1) * 0.03})` : "scale(1)";
+        setViewportScale(scrollProgress > 0.86 ? 1 - mapRange(scrollProgress, 0.86, 1) * 0.03 : 1);
     }
 
     function updateReadouts() {
-        const noiseValue = toggleNoise.checked ? 0.02 : 0.06 + mapRange(scrollProgress, 0, 1) * 0.18;
-        const focusValue = toggleFocus.checked ? "SHARP" : (scrollProgress < 0.24 ? "SHARP" : "DRIFT");
+        const blurAmount = getBlurAmount();
+        const noiseValue = toggleNoise.checked ? 0.03 : 0.14 + mapRange(scrollProgress, 0, 1) * 0.22;
+        const focusValue = toggleFocus.checked ? "SHARP" : (blurAmount < 3 ? "SHARP" : "DRIFT");
 
         readoutNoise.textContent = noiseValue.toFixed(2);
-        readoutFreq.textContent = (scrollProgress * 10).toFixed(1);
+        readoutFreq.textContent = ((blurAmount / 18) * 10).toFixed(1);
         readoutFocus.textContent = focusValue;
 
-        freqMeter.style.height = `${scrollProgress * 100}%`;
-        ctrlKnob.style.transform = `rotate(${scrollProgress * 300}deg)`;
-        header.style.opacity = scrollProgress > 0.3 ? 1 : 0;
+        setHeaderOpacity(scrollProgress > 0.3 ? 1 : 0);
     }
 
     function updateConsole() {
@@ -193,8 +324,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function updateControlPanel() {
-        controlPanel.classList.toggle("show", scrollProgress > 0.5);
+        gsap.to(controlPanel, {
+            xPercent: -50,
+            yPercent: scrollProgress > 0.5 ? 0 : 150,
+            opacity: scrollProgress > 0.5 ? 1 : 0.9,
+            duration: 0.8,
+            ease: "power3.out",
+            overwrite: true
+        });
         currentStateDesc.textContent = getPhase(scrollProgress).label;
+    }
+
+    function updateKnobRotation() {
+        const deltaY = window.scrollY - lastScrollY;
+        if (deltaY !== 0) {
+            knobRotation += deltaY * 0.18;
+            gsap.to(knob, {
+                rotation: knobRotation,
+                duration: 0.45,
+                ease: "power2.out",
+                overwrite: true
+            });
+        }
+        lastScrollY = window.scrollY;
     }
 
     function update() {
@@ -202,6 +354,7 @@ document.addEventListener("DOMContentLoaded", () => {
         scrollProgress = totalHeight > 0 ? window.scrollY / totalHeight : 0;
         scrollProgress = clamp(scrollProgress, 0, 1);
 
+        updateKnobRotation();
         applyPhase(getPhase(scrollProgress));
         applyChaos();
         updateReadouts();
@@ -213,12 +366,34 @@ document.addEventListener("DOMContentLoaded", () => {
         toggle.addEventListener("change", update);
     });
 
+    depthUp.addEventListener("click", () => {
+        setDepthMode(depthMode === "up" ? "base" : "up");
+    });
+
+    depthDown.addEventListener("click", () => {
+        setDepthMode(depthMode === "down" ? "base" : "down");
+    });
+
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", () => {
         resizeNoise();
         update();
     });
 
+    knob.addEventListener("mouseenter", () => {
+        gsap.to(knob, {
+            rotation: knobRotation + 360,
+            duration: 1.2,
+            ease: "power2.out",
+            overwrite: true,
+            onComplete: () => {
+                knobRotation += 360;
+            }
+        });
+    });
+
+    buildRfMeter();
+    setDepthMode("base");
     resizeNoise();
     renderNoise();
     applyPhase(phases[0]);

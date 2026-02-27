@@ -10,7 +10,6 @@
     --glass-border: rgba(242, 242, 242, 0.08);
     --pixel-font: "Workbench", sans-serif;
     --body-font: "Instrument Sans", sans-serif;
-    --focus-blur: 0px;
     --jitter-x: 0px;
     --jitter-y: 0px;
 }
@@ -63,9 +62,9 @@ body {
     height: 100%;
     pointer-events: none;
     z-index: 1000;
-    opacity: 0.08;
-    mix-blend-mode: soft-light;
-    filter: blur(0.4px) contrast(135%);
+    opacity: 0.14;
+    mix-blend-mode: overlay;
+    filter: blur(0.25px) contrast(160%);
     image-rendering: auto;
 }
 
@@ -79,11 +78,6 @@ body {
         linear-gradient(rgba(255, 255, 255, 0.045) 1px, transparent 1px),
         linear-gradient(90deg, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
     background-size: 40px 40px;
-    transition: opacity 240ms ease;
-}
-
-#grid-overlay.active {
-    opacity: 1;
 }
 
 .pixel-font {
@@ -115,7 +109,6 @@ p {
     padding: 2rem;
     z-index: 100;
     opacity: 0;
-    transition: opacity 0.5s ease;
 }
 
 .readout-container {
@@ -151,6 +144,44 @@ p {
     z-index: 10;
 }
 
+.rf-meter-shell {
+    position: absolute;
+    left: 1.75rem;
+    top: 50%;
+    width: 120px;
+    height: min(60vh, 520px);
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 4;
+}
+
+#rfMeter {
+    display: block;
+    width: min(520px, 60vh);
+    height: auto;
+    color: var(--accent-red);
+    transform: rotate(-90deg);
+    overflow: visible;
+    opacity: 0.92;
+    filter: drop-shadow(0 18px 35px rgba(0, 0, 0, 0.32));
+}
+
+#rfMeter .rf-bars rect {
+    fill: currentColor;
+}
+
+#rfMeter rect,
+#rfMeter line {
+    stroke: currentColor;
+}
+
+#rfMeter #rfFade stop {
+    stop-color: currentColor;
+}
+
 .tutorial-layout {
     display: grid;
     grid-template-columns: 460px 460px;
@@ -158,12 +189,6 @@ p {
     width: auto;
     padding: 2rem;
     align-items: center;
-    filter: blur(var(--focus-blur));
-    transform: translate(var(--jitter-x), var(--jitter-y));
-    transition:
-        filter 220ms ease,
-        transform 80ms linear,
-        opacity 280ms ease;
 }
 
 .tutorial-column {
@@ -172,6 +197,7 @@ p {
     flex-direction: column;
     gap: 2rem;
     padding-top: 2rem;
+    filter: blur(0px);
 }
 
 .tutorial-column h1 {
@@ -228,6 +254,7 @@ p {
 .console-column {
     display: flex;
     justify-content: flex-start;
+    filter: blur(0px);
 }
 
 .console-window {
@@ -334,7 +361,6 @@ p {
     position: fixed;
     bottom: 2rem;
     left: 50%;
-    transform: translateX(-50%) translateY(150%);
     width: min(90%, 1200px);
     background: var(--glass-bg);
     backdrop-filter: blur(22px);
@@ -342,11 +368,6 @@ p {
     border-radius: 20px;
     padding: 1.5rem 2rem;
     z-index: 200;
-    transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease;
-}
-
-#control-panel.show {
-    transform: translateX(-50%) translateY(0);
 }
 
 .panel-inner {
@@ -362,23 +383,6 @@ p {
     gap: 2rem;
 }
 
-.meter-vertical {
-    width: 10px;
-    height: 100px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 4px;
-    overflow: hidden;
-    position: relative;
-}
-
-.meter-bar {
-    position: absolute;
-    inset: auto 0 0;
-    height: 30%;
-    background: var(--accent-red);
-    transition: height 0.1s linear;
-}
-
 .knob-container {
     display: flex;
     flex-direction: column;
@@ -387,24 +391,7 @@ p {
 }
 
 .knob {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    background: linear-gradient(145deg, #333, #111);
-    border: 4px solid var(--gray-75);
-    position: relative;
     cursor: grab;
-}
-
-.knob-indicator {
-    position: absolute;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 4px;
-    height: 15px;
-    background: var(--accent-red);
-    border-radius: 2px;
 }
 
 .knob-label {
@@ -412,11 +399,49 @@ p {
     color: var(--gray-25);
 }
 
+#knobSvg {
+    width: 92px;
+    height: 92px;
+    display: block;
+    overflow: visible;
+    filter: drop-shadow(0 18px 30px rgba(0, 0, 0, 0.35));
+}
+
+#knobSvg #knob > circle,
+#knobSvg #knob > ellipse {
+    fill: rgba(18, 19, 20, 0.12);
+}
+
 .status-text {
     font-size: 0.95rem;
     color: var(--gray-25);
     text-transform: uppercase;
     letter-spacing: 0.08em;
+}
+
+.depth-module {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.depth-button {
+    width: 44px;
+    height: 44px;
+    border-radius: 999px;
+    border: 1px solid rgba(242, 242, 242, 0.14);
+    background: rgba(255, 255, 255, 0.02);
+    color: var(--gray-10);
+    font: inherit;
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+}
+
+.depth-button.is-active {
+    background: rgba(214, 29, 0, 0.2);
+    border-color: rgba(214, 29, 0, 0.55);
+    color: #fff;
 }
 
 .toggles-module {
@@ -450,7 +475,6 @@ p {
     cursor: pointer;
     inset: 0;
     background-color: var(--gray-75);
-    transition: background-color 0.24s ease;
     border-radius: 34px;
 }
 
@@ -462,7 +486,6 @@ p {
     left: 4px;
     bottom: 4px;
     background-color: white;
-    transition: transform 0.24s ease;
     border-radius: 50%;
 }
 
@@ -495,7 +518,26 @@ body.phase-aftermath .status-text {
     color: var(--gray-10);
 }
 
+body.console-priority .console-column {
+    position: relative;
+    z-index: 7;
+}
+
+body.console-priority .tutorial-column {
+    position: relative;
+    z-index: 2;
+}
+
+body.console-priority .rf-meter-shell {
+    opacity: 0.5;
+}
+
 @media (max-width: 1080px) {
+    .rf-meter-shell {
+        left: 0.25rem;
+        width: 100px;
+    }
+
     .tutorial-layout {
         grid-template-columns: 1fr;
         width: min(92vw, 720px);
@@ -536,6 +578,10 @@ body.phase-aftermath .status-text {
         flex-wrap: wrap;
     }
 
+    .rf-meter-shell {
+        display: none;
+    }
+
     .tutorial-layout {
         width: min(94vw, 680px);
         padding: 1rem;
@@ -562,5 +608,9 @@ body.phase-aftermath .status-text {
 
     .knob-module {
         gap: 1rem;
+    }
+
+    .depth-module {
+        order: 3;
     }
 }
