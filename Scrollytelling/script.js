@@ -17,7 +17,6 @@ document.addEventListener("DOMContentLoaded", () => {
     const readoutNoise = document.querySelector("#readout-noise .value");
     const readoutFreq = document.querySelector("#readout-frequency .value");
     const readoutFocus = document.querySelector("#readout-focus .value");
-    const currentStateDesc = document.getElementById("current-state-desc");
     const header = document.querySelector(".fixed-header");
     const viewport = document.getElementById("viewport-content");
     const noiseCanvas = document.getElementById("noise-overlay");
@@ -26,6 +25,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const knob = document.querySelector("#knob");
     const rfBarsGroup = document.querySelector("#rfMeter .rf-bars");
     const rfPeak = document.querySelector("#rfMeter .rf-peak");
+    const statusBezel = document.querySelector(".status-bezel");
+    const statusScreen = document.querySelector(".status-screen");
+    const statusMarquee = document.getElementById("status-marquee");
     const depthUp = document.getElementById("depth-up");
     const depthDown = document.getElementById("depth-down");
 
@@ -65,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
     let currentMode = "dark";
     let lockedMode = null;
     let modeGlitchActive = false;
+    let marqueeTween = null;
     const originalTexts = new Map();
     const textElements = tutorialTextContainer.querySelectorAll("h1, h2, h3, h4, p, div.code-snippet, li");
 
@@ -199,6 +202,48 @@ document.addEventListener("DOMContentLoaded", () => {
             bar.dataset.index = String(index);
             rfBarsGroup.appendChild(bar);
         }
+    }
+
+    function styleStatusDisplay() {
+        if (!statusBezel || !statusScreen || !statusMarquee) return;
+        Object.assign(statusBezel.style, {
+            display: "block",
+            width: "100%",
+            padding: "0.9rem 1rem",
+            borderRadius: "22px",
+            background: "linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02)), linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.18))",
+            border: "1px solid rgba(255,255,255,0.16)",
+            boxShadow: "inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -10px 22px rgba(0,0,0,0.12), 0 16px 30px rgba(0,0,0,0.12)"
+        });
+
+        Object.assign(statusScreen.style, {
+            display: "block",
+            width: "100%",
+            overflow: "hidden",
+            borderRadius: "18px",
+            padding: "0.85rem 1rem",
+            background: "linear-gradient(180deg, rgba(17,20,23,0.96), rgba(25,28,31,0.98))",
+            border: "1px solid rgba(255,255,255,0.06)",
+            boxShadow: "inset 0 2px 12px rgba(0,0,0,0.55), inset 0 -1px 0 rgba(255,255,255,0.04)"
+        });
+
+        Object.assign(statusMarquee.style, {
+            display: "block",
+            width: "100%",
+            fontFamily: '"Workbench", sans-serif',
+            fontSize: "1.4rem",
+            lineHeight: "1",
+            letterSpacing: "0.04em",
+            whiteSpace: "nowrap",
+            color: "var(--color-text)",
+            textShadow: "0 0 6px rgba(255,255,255,0.18), 0 0 18px rgba(255,255,255,0.08)"
+        });
+    }
+
+    function initStatusMarquee() {
+        if (!statusMarquee) return;
+        if (marqueeTween) marqueeTween.kill();
+        styleStatusDisplay();
     }
 
     function resizeNoise() {
@@ -442,7 +487,6 @@ document.addEventListener("DOMContentLoaded", () => {
             ease: "power3.out",
             overwrite: true
         });
-        currentStateDesc.textContent = getPhase(scrollProgress).label;
     }
 
     function updateKnobRotation() {
@@ -490,6 +534,7 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", update, { passive: true });
     window.addEventListener("resize", () => {
         resizeNoise();
+        initStatusMarquee();
         update();
     });
 
@@ -506,6 +551,8 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     buildRfMeter();
+    initStatusMarquee();
+    window.setTimeout(initStatusMarquee, 120);
     setFocusPlane(2);
     setModeClass("dark");
     resizeNoise();

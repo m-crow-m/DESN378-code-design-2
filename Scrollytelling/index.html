@@ -234,8 +234,20 @@
                 </div>
             </div>
 
-            <div class="status-module">
-                <p class="status-text">In the middle of <span id="current-state-desc">nothing</span></p>
+            <div class="status-module" aria-label="Diagnostic message display" style="flex:1 1 360px;min-width:260px;max-width:560px;">
+                <div class="status-bezel" style="position:relative;display:block;width:100%;padding:0.9rem 1rem;border-radius:22px;background:linear-gradient(180deg, rgba(255,255,255,0.14), rgba(255,255,255,0.02)), linear-gradient(180deg, rgba(0,0,0,0.08), rgba(0,0,0,0.18));border:1px solid rgba(255,255,255,0.16);box-shadow:inset 0 1px 0 rgba(255,255,255,0.08), inset 0 -10px 22px rgba(0,0,0,0.12), 0 16px 30px rgba(0,0,0,0.12);">
+                    <div class="status-screen" style="position:relative;display:block;width:100%;overflow:hidden;border-radius:18px;padding:0.85rem 1rem;background:linear-gradient(180deg, rgba(17,20,23,0.96), rgba(25,28,31,0.98));border:1px solid rgba(255,255,255,0.06);box-shadow:inset 0 2px 12px rgba(0,0,0,0.55), inset 0 -1px 0 rgba(255,255,255,0.04);">
+                        <marquee
+                            id="status-marquee"
+                            behavior="scroll"
+                            direction="left"
+                            scrollamount="6"
+                            style="display:block;width:100%;font-family:'Workbench',sans-serif;font-size:1.4rem;line-height:1;letter-spacing:0.04em;white-space:nowrap;color:#f2f2f2;text-shadow:0 0 6px rgba(255,255,255,0.18), 0 0 18px rgba(255,255,255,0.08);"
+                        >
+                            In the middle of the journey of our life I found myself within a dark woods where the straight way was lost.
+                        </marquee>
+                    </div>
+                </div>
             </div>
 
             <div class="depth-module" aria-label="Layer controls">
