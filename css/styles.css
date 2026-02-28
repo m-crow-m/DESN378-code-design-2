@@ -1,12 +1,13 @@
-/* =============================================
-   DESN 378: Code + Design 2
-   Your portfolio styles go here.
+:root {
+  --bg: #f2efe8;
+  --paper: #fffdf8;
+  --ink: #111111;
+  --muted: #505050;
+  --accent: #ef3b2d;
+  --line: #111111;
+  --shadow: 12px 12px 0 #111111;
+}
 
-   Replace this with your CSS from DESN 368
-   or start fresh with your own design.
-   ============================================= */
-
-/* Basic reset and defaults */
 *,
 *::before,
 *::after {
@@ -15,38 +16,248 @@
   padding: 0;
 }
 
-body {
-  font-family: system-ui, -apple-system, sans-serif;
-  line-height: 1.6;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 2rem;
-  color: #1a1a1a;
-  background: #fafafa;
+html {
+  scroll-behavior: smooth;
 }
 
-main {
-  min-height: 80vh;
+body {
+  min-height: 100vh;
+  background:
+    linear-gradient(90deg, transparent 0 49%, rgba(17, 17, 17, 0.08) 49% 51%, transparent 51% 100%),
+    linear-gradient(var(--bg), #e6e0d5);
+  color: var(--ink);
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 2rem));
+  margin: 0 auto;
+  padding: 1rem 0 4rem;
+}
+
+.hero,
+.manifesto,
+.work-card {
+  border: 3px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.hero {
+  background: var(--paper);
+  padding: 1.25rem;
+}
+
+.hero-kicker {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 3px solid var(--line);
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 2.3fr) minmax(280px, 1fr);
+  gap: 1rem;
+  padding-top: 1rem;
+}
+
+.hero-copy,
+.hero-panel {
+  min-width: 0;
+  border: 3px solid var(--line);
+  padding: 1.25rem;
+}
+
+.hero-copy {
+  background:
+    linear-gradient(135deg, rgba(239, 59, 45, 0.95) 0 22%, transparent 22% 100%),
+    var(--paper);
+}
+
+.eyebrow,
+.panel-label,
+.card-index {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.86rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.eyebrow {
+  margin-bottom: 0.8rem;
+}
+
+h1,
+h2 {
+  font-weight: 400;
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: 0.02em;
 }
 
 h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
+  max-width: 10ch;
+  font-size: clamp(3.4rem, 10vw, 8.4rem);
 }
 
-p {
-  margin-bottom: 1rem;
-  color: #666;
+.hero-text,
+.manifesto p,
+.work-card p,
+.signal-list {
+  font-family: "Courier New", Courier, monospace;
+  font-size: 1rem;
+  line-height: 1.55;
 }
 
-code {
-  background: #e5e5e5;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-family: 'SF Mono', Consolas, monospace;
+.hero-text {
+  max-width: 40rem;
+  margin-top: 1rem;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  margin-top: 1.4rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 3.2rem;
+  padding: 0.7rem 1.15rem;
+  border: 3px solid var(--line);
+  background: transparent;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.95rem;
+  text-transform: uppercase;
+  transition: transform 150ms ease, background-color 150ms ease, color 150ms ease;
+}
+
+.button:hover,
+.button:focus-visible,
+.work-card:hover,
+.work-card:focus-visible {
+  transform: translate(-4px, -4px);
+}
+
+.button-primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.hero-panel {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.signal-list {
+  list-style: none;
+  display: grid;
+  gap: 0.8rem;
+  margin-top: 1.5rem;
+}
+
+.signal-list li {
+  padding-top: 0.8rem;
+  border-top: 1px solid rgba(255, 253, 248, 0.35);
+}
+
+.manifesto {
+  margin-top: 1rem;
+  padding: 1.25rem;
+  background: var(--accent);
+  color: var(--paper);
+}
+
+.manifesto p {
+  max-width: 54rem;
+  font-size: clamp(1rem, 2vw, 1.3rem);
+}
+
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.work-card {
+  display: grid;
+  gap: 1rem;
+  min-height: 280px;
+  padding: 1.25rem;
+  transition: transform 150ms ease;
+}
+
+.work-card h2 {
+  font-size: clamp(2rem, 4vw, 3.5rem);
+  max-width: 11ch;
+}
+
+.accent-dark {
+  background: var(--paper);
+}
+
+.accent-light {
+  background: #d9d3c7;
+}
+
+.accent-alert {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.button:focus-visible,
+.work-card:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .hero-grid,
+  .work-grid {
+    grid-template-columns: 1fr;
+  }
+
+  h1 {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 640px) {
+  .page-shell {
+    width: min(100% - 1rem, 1180px);
+    padding-bottom: 2rem;
+  }
+
+  .hero,
+  .manifesto,
+  .work-card,
+  .hero-copy,
+  .hero-panel {
+    box-shadow: 7px 7px 0 #111111;
+  }
+
+  .hero-kicker {
+    flex-direction: column;
+  }
+
+  .button {
+    width: 100%;
+  }
 }
