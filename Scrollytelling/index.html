@@ -12,9 +12,9 @@
     <link rel="stylesheet" href="style.css?v=20260228c">
     <style>
         body #viewport-content .tutorial-layout {
-            grid-template-columns: 560px minmax(840px, 980px);
-            gap: 2.5rem;
-            width: min(1600px, calc(100vw - 6rem));
+            grid-template-columns: 520px minmax(760px, 940px);
+            gap: 5rem;
+            width: min(1540px, calc(100vw - 5rem));
             justify-content: center;
         }
 
@@ -24,10 +24,12 @@
         }
 
         body #viewport-content .tutorial-column h1 {
-            width: 100%;
+            width: auto;
+            max-width: 100%;
             text-align: right;
             align-self: flex-end;
-            margin-right: 0;
+            margin-right: 4.5rem;
+            transform: none;
         }
 
         body #viewport-content .tutorial-column h2,
@@ -49,13 +51,31 @@
         }
 
         body #viewport-content .console-window {
-            max-width: 980px;
+            max-width: 940px;
+        }
+
+        @media (max-width: 1320px) {
+            body #viewport-content .tutorial-layout {
+                grid-template-columns: minmax(420px, 520px) minmax(540px, 1fr);
+                gap: 3rem;
+                width: min(1280px, calc(100vw - 3rem));
+            }
+
+            body #viewport-content .tutorial-column h1 {
+                width: auto;
+                margin-right: 2.5rem;
+            }
+
+            body #viewport-content .console-window {
+                max-width: 100%;
+            }
         }
 
         @media (max-width: 1080px) {
             body #viewport-content .tutorial-layout {
                 grid-template-columns: 1fr;
-                width: min(92vw, 720px);
+                width: min(94vw, 760px);
+                gap: 2rem;
             }
 
             body #viewport-content .tutorial-column {
@@ -64,7 +84,10 @@
             }
 
             body #viewport-content .tutorial-column h1 {
+                width: auto;
                 text-align: center;
+                margin-right: 0;
+                transform: none;
             }
 
             body #viewport-content .tutorial-column h2,

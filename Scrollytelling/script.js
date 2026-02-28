@@ -243,7 +243,7 @@ document.addEventListener("DOMContentLoaded", () => {
             lineHeight: "1",
             letterSpacing: "0.04em",
             whiteSpace: "nowrap",
-            color: "var(--color-text)",
+            color: "var(--primitive-grey-10)",
             textShadow: "0 0 6px rgba(255,255,255,0.18), 0 0 18px rgba(255,255,255,0.08)"
         });
     }

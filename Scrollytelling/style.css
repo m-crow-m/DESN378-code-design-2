@@ -197,10 +197,10 @@ p {
 
 .tutorial-layout {
     display: grid;
-    grid-template-columns: 560px minmax(840px, 980px);
-    gap: 2.5rem;
-    width: min(1600px, calc(100vw - 6rem));
-    padding: 2rem 2rem 2rem 4rem;
+    grid-template-columns: 520px minmax(760px, 940px);
+    gap: 5rem;
+    width: min(1540px, calc(100vw - 5rem));
+    padding: 2rem 2rem 2rem 3rem;
     align-items: start;
     justify-content: center;
 }
@@ -221,6 +221,11 @@ p {
     line-height: 0.8;
     margin-bottom: 0.2rem;
     align-self: flex-end;
+    width: auto;
+    max-width: 100%;
+    text-align: right;
+    margin-right: 4.5rem;
+    transform: none;
 }
 
 .tutorial-column h2 {
@@ -301,7 +306,7 @@ p {
 
 .console-window {
     width: 100%;
-    max-width: 980px;
+    max-width: 940px;
     background: var(--color-console-bg);
     border-radius: 12px;
     overflow: hidden;
@@ -546,7 +551,7 @@ p {
     letter-spacing: 0.04em;
     text-transform: none;
     white-space: nowrap;
-    color: var(--color-text);
+    color: var(--primitive-grey-10);
     text-shadow:
         0 0 6px rgba(255, 255, 255, 0.18),
         0 0 18px rgba(255, 255, 255, 0.08);
@@ -662,10 +667,10 @@ body.mode-light .status-screen {
 }
 
 body.mode-light .status-copy {
-    color: var(--color-text);
+    color: var(--primitive-grey-10);
     text-shadow:
-        0 0 6px rgba(33, 36, 38, 0.12),
-        0 0 16px rgba(33, 36, 38, 0.06);
+        0 0 6px rgba(255, 255, 255, 0.18),
+        0 0 16px rgba(255, 255, 255, 0.08);
 }
 
 body.mode-light {
@@ -714,6 +719,24 @@ body.mode-glitch #viewport-content {
     mix-blend-mode: difference;
 }
 
+@media (max-width: 1320px) {
+    .tutorial-layout {
+        grid-template-columns: minmax(420px, 520px) minmax(540px, 1fr);
+        gap: 3rem;
+        width: min(1280px, calc(100vw - 3rem));
+        padding: 1.75rem;
+    }
+
+    .tutorial-column h1 {
+        width: auto;
+        margin-right: 2.5rem;
+    }
+
+    .console-window {
+        max-width: 100%;
+    }
+}
+
 @media (max-width: 1080px) {
     .rf-meter-shell {
         left: 0.25rem;
@@ -722,8 +745,8 @@ body.mode-glitch #viewport-content {
 
     .tutorial-layout {
         grid-template-columns: 1fr;
-        width: min(92vw, 720px);
-        gap: 1.5rem;
+        width: min(94vw, 760px);
+        gap: 2rem;
         padding: 1.5rem;
     }
 
@@ -735,6 +758,9 @@ body.mode-glitch #viewport-content {
 
     .tutorial-column h1 {
         align-self: center;
+        width: auto;
+        margin-right: 0;
+        transform: none;
     }
 
     .tutorial-section p {
@@ -745,6 +771,7 @@ body.mode-glitch #viewport-content {
     .console-column {
         justify-content: stretch;
         padding-top: 0;
+        width: 100%;
     }
 
     .panel-inner {
