@@ -197,11 +197,12 @@ p {
 
 .tutorial-layout {
     display: grid;
-    grid-template-columns: 460px 460px;
-    gap: 2rem;
-    width: auto;
-    padding: 2rem;
-    align-items: center;
+    grid-template-columns: 560px minmax(840px, 980px);
+    gap: 2.5rem;
+    width: min(1600px, calc(100vw - 6rem));
+    padding: 2rem 2rem 2rem 4rem;
+    align-items: start;
+    justify-content: center;
 }
 
 .tutorial-column {
@@ -209,35 +210,42 @@ p {
     text-align: right;
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-    padding-top: 2rem;
+    gap: 1.6rem;
+    padding-top: 4.2rem;
     filter: blur(0px);
+    align-items: flex-end;
 }
 
 .tutorial-column h1 {
     font-size: 8rem;
     line-height: 0.8;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.2rem;
+    align-self: flex-end;
 }
 
 .tutorial-column h2 {
     font-size: 2rem;
     color: var(--color-muted);
-    margin-bottom: 3rem;
+    margin-bottom: 2.8rem;
     font-weight: 400;
+    align-self: flex-end;
+    text-align: right;
 }
 
 .tutorial-section h3,
 .tutorial-step h4 {
     font-size: 1.25rem;
     margin-bottom: 0.5rem;
+    text-align: right;
 }
 
 .tutorial-section p {
     font-size: 1rem;
     color: var(--color-muted);
-    max-width: 400px;
+    max-width: 430px;
     margin-left: auto;
+    margin-right: 0;
+    text-align: right;
 }
 
 .code-snippet {
@@ -258,11 +266,29 @@ p {
 .tutorial-troubleshoot {
     font-size: 0.9rem;
     color: var(--color-muted);
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
 }
 
 .tutorial-troubleshoot ul {
     list-style: none;
     margin-top: 0.5rem;
+    text-align: right;
+}
+
+.tutorial-step,
+.tutorial-section {
+    width: 100%;
+}
+
+.tutorial-step p,
+.tutorial-step .code-snippet,
+.tutorial-step .code-snippet.output {
+    margin-left: auto;
+    margin-right: 0;
+    text-align: right;
 }
 
 .console-column {
@@ -270,11 +296,12 @@ p {
     display: flex;
     justify-content: flex-start;
     filter: blur(0px);
+    padding-top: 12rem;
 }
 
 .console-window {
     width: 100%;
-    max-width: 600px;
+    max-width: 980px;
     background: var(--color-console-bg);
     border-radius: 12px;
     overflow: hidden;
@@ -701,16 +728,23 @@ body.mode-glitch #viewport-content {
     }
 
     .tutorial-column {
-        text-align: left;
+        text-align: center;
         padding-top: 0;
+        align-items: center;
+    }
+
+    .tutorial-column h1 {
+        align-self: center;
     }
 
     .tutorial-section p {
-        margin-left: 0;
+        margin-left: auto;
+        margin-right: auto;
     }
 
     .console-column {
         justify-content: stretch;
+        padding-top: 0;
     }
 
     .panel-inner {

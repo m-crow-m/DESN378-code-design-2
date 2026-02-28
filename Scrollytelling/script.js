@@ -68,8 +68,10 @@ document.addEventListener("DOMContentLoaded", () => {
     let lockedMode = null;
     let modeGlitchActive = false;
     let marqueeTween = null;
+    let lastScrambleAt = 0;
     const originalTexts = new Map();
     const textElements = tutorialTextContainer.querySelectorAll("h1, h2, h3, h4, p, div.code-snippet, li");
+    const textDriftSeeds = new Map();
 
     gsap.set(knob, { svgOrigin: "742 530", transformOrigin: "50% 50%" });
     gsap.set(controlPanel, { xPercent: -50, yPercent: 150, opacity: 0.9 });
@@ -89,6 +91,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     textElements.forEach((element) => {
         originalTexts.set(element, element.textContent);
+        textDriftSeeds.set(element, {
+            x: Math.random() * Math.PI * 2,
+            y: Math.random() * Math.PI * 2,
+            speed: 0.55 + Math.random() * 1.2,
+            range: 0.6 + Math.random() * 1.1
+        });
     });
 
     const chars = "ABCDEFGHIJKLMN0123456789!@#$%^&*()_+{}[]|;:,.<>?";
@@ -318,6 +326,62 @@ document.addEventListener("DOMContentLoaded", () => {
         return (pulseMix + stutter) * envelope * 18;
     }
 
+    function updateTextDrift() {
+        const driftStrength = Math.pow(scrollProgress, 1.35);
+        const time = performance.now() * 0.001;
+
+        textElements.forEach((element) => {
+            const seed = textDriftSeeds.get(element);
+            if (scrollProgress <= 0.01) {
+                gsap.to(element, {
+                    x: 0,
+                    y: 0,
+                    rotation: 0,
+                    duration: 0.18,
+                    ease: "power1.out",
+                    overwrite: true
+                });
+                return;
+            }
+
+            const maxX = 3 + driftStrength * 42 * seed.range;
+            const maxY = 2 + driftStrength * 26 * seed.range;
+            const x = Math.sin(time * (0.45 + seed.speed) + seed.x) * maxX;
+            const y = Math.cos(time * (0.3 + seed.speed * 0.8) + seed.y) * maxY;
+            const rotate = Math.sin(time * (0.18 + seed.speed * 0.32) + seed.x) * driftStrength * 3.8;
+
+            gsap.to(element, {
+                x,
+                y,
+                rotation: rotate,
+                duration: 0.18 + (1 - driftStrength) * 0.28,
+                ease: driftStrength > 0.68 ? "steps(2)" : "power1.out",
+                overwrite: true
+            });
+        });
+    }
+
+    function updateScrambledText(scrambleIntensity) {
+        const now = performance.now();
+        const cadence = 460 - scrollProgress * 380;
+
+        if (scrambleIntensity <= 0.01) {
+            textElements.forEach((element) => {
+                element.textContent = originalTexts.get(element) || "";
+            });
+            lastScrambleAt = now;
+            return;
+        }
+
+        if (now - lastScrambleAt < cadence) return;
+        lastScrambleAt = now;
+
+        textElements.forEach((element) => {
+            const originalText = originalTexts.get(element) || "";
+            element.textContent = scramble(originalText, scrambleIntensity);
+        });
+    }
+
     function updateRfMeter(blurAmount) {
         const bars = [...rfBarsGroup.querySelectorAll("rect")];
         const normalized = clamp(blurAmount / 18, 0, 1);
@@ -382,10 +446,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const jitterAmount = toggleJitter.checked ? 0 : mapRange(scrollProgress, 0.28, 0.95) * 22;
         const noiseOpacity = toggleNoise.checked ? 0.03 : 0.14 + mapRange(scrollProgress, 0, 1) * 0.22;
 
-        textElements.forEach((element) => {
-            const originalText = originalTexts.get(element) || "";
-            element.textContent = scramble(originalText, scrambleIntensity);
-        });
+        updateScrambledText(scrambleIntensity);
+        updateTextDrift();
 
         setGridOpacity(scrollProgress > 0.82 ? 1 : 0);
         setNoiseOpacity(Number(noiseOpacity.toFixed(2)));
@@ -521,6 +583,8 @@ document.addEventListener("DOMContentLoaded", () => {
         toggle.addEventListener("change", update);
     });
 
+    gsap.ticker.add(update);
+
     depthUp.addEventListener("click", () => {
         setFocusPlane(focusPlaneIndex + 1);
         update();
@@ -563,6 +627,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logToConsole("> LOADING TUTORIAL...");
 
     window.addEventListener("beforeunload", () => {
+        gsap.ticker.remove(update);
         window.cancelAnimationFrame(noiseFrame);
     });
 });

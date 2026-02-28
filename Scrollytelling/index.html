@@ -9,7 +9,76 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;600&family=Workbench&display=swap"
         rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css?v=20260228c">
+    <style>
+        body #viewport-content .tutorial-layout {
+            grid-template-columns: 560px minmax(840px, 980px);
+            gap: 2.5rem;
+            width: min(1600px, calc(100vw - 6rem));
+            justify-content: center;
+        }
+
+        body #viewport-content .tutorial-column {
+            text-align: right;
+            align-items: flex-end;
+        }
+
+        body #viewport-content .tutorial-column h1 {
+            width: 100%;
+            text-align: right;
+            align-self: flex-end;
+            margin-right: 0;
+        }
+
+        body #viewport-content .tutorial-column h2,
+        body #viewport-content .tutorial-column h3,
+        body #viewport-content .tutorial-column h4,
+        body #viewport-content .tutorial-column p,
+        body #viewport-content .tutorial-column .tutorial-troubleshoot,
+        body #viewport-content .tutorial-column .tutorial-troubleshoot ul,
+        body #viewport-content .tutorial-column .code-snippet {
+            text-align: right;
+            align-self: flex-end;
+        }
+
+        body #viewport-content .tutorial-column .tutorial-section p,
+        body #viewport-content .tutorial-column .tutorial-troubleshoot,
+        body #viewport-content .tutorial-column .tutorial-troubleshoot ul {
+            margin-left: auto;
+            margin-right: 0;
+        }
+
+        body #viewport-content .console-window {
+            max-width: 980px;
+        }
+
+        @media (max-width: 1080px) {
+            body #viewport-content .tutorial-layout {
+                grid-template-columns: 1fr;
+                width: min(92vw, 720px);
+            }
+
+            body #viewport-content .tutorial-column {
+                text-align: center;
+                align-items: center;
+            }
+
+            body #viewport-content .tutorial-column h1 {
+                text-align: center;
+            }
+
+            body #viewport-content .tutorial-column h2,
+            body #viewport-content .tutorial-column h3,
+            body #viewport-content .tutorial-column h4,
+            body #viewport-content .tutorial-column p,
+            body #viewport-content .tutorial-column .tutorial-troubleshoot,
+            body #viewport-content .tutorial-column .tutorial-troubleshoot ul,
+            body #viewport-content .tutorial-column .code-snippet {
+                text-align: center;
+                align-self: center;
+            }
+        }
+    </style>
 </head>
 
 <body>
@@ -285,7 +354,7 @@
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="script.js"></script>
+    <script src="script.js?v=20260228c"></script>
 </body>
 
 </html>
